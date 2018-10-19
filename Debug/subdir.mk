@@ -4,19 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Clef.cpp \
-../Noeud.cpp \
-../TasMinTab.cpp 
+../Arbre.cpp 
 
 OBJS += \
-./Clef.o \
-./Noeud.o \
-./TasMinTab.o 
+./Arbre.o 
 
 CPP_DEPS += \
-./Clef.d \
-./Noeud.d \
-./TasMinTab.d 
+./Arbre.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

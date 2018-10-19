@@ -7,9 +7,10 @@
 
 #ifndef NOEUD_H_
 #define NOEUD_H_
+
 #include "Clef.h"
 
-class Noeud{
+class Noeud {
 private:
 	//bool rempli;
 	Clef clef;
@@ -17,18 +18,25 @@ private:
 	Noeud filsD;
 
 public:
-	Noeud(Clef clef, Noeud filsG, Noeud filsD);
-	bool getRempli();
-	unsigned int getI1();
-	unsigned int getI2();
-	unsigned int getI3();
-	unsigned int getI4();
-	SupprMin(Noeud n);
+	Noeud(Clef nclef, Noeud nfilsG, Noeud nfilsD) :
+			clef(nclef), filsG(nfilsG), filsD(nfilsD) {
+	}
 
+	void Ajout(Noeud racine, Noeud n) { //marche pas encore
+		/*if(!racine.rempli){
+		 if(racine.filsG != nullptr){
+		 racine.filsD = n; //on place dans le fils droit
+		 }else{
+		 racine.filsG = n; //on place dans le fils gauche
+		 }
+		 }else{
+		 Ajout(racine.filsG, n);
+		 }*/
+
+		//std::vector<int> instructions(1);
+		//cpt/2 -> 0 ou 1 dans le tab, selon si le res est pair ou impair
+		//on lit le tableau à l'envres pour avoir le chemin de la racine au dernier element
+	}
 };
-
-bool inf(Noeud a1, Noeud a2);
-
-
 
 #endif /* NOEUD_H_ */
