@@ -13,24 +13,41 @@
 class Noeud {
 private:
 	Clef clef;
-	Noeud pere;
-	Noeud filsG;
-	Noeud filsD;
+	Noeud * pere;
+	Noeud * filsG;
+	Noeud * filsD;
 public:
-	Noeud(Clef nclef, Noeud npere, Noeud nfilsG, Noeud nfilsD) :
+	Noeud(Clef nclef, Noeud * npere, Noeud * nfilsG, Noeud * nfilsD) :
 			clef(nclef), pere(npere), filsG(nfilsG), filsD(nfilsD) {
 	}
 
+	Clef getClef() {
+		return clef;
+	}
+
+	Noeud* getPere() {
+		return pere;
+	}
+
+	Noeud* getFilsG() {
+		return filsG;
+	}
+
+	Noeud* getFilsD() {
+		return filsD;
+	}
+
 	void Ajout(Noeud racine, Noeud n) { //marche pas encore
+		return;
 		/*if (!racine.rempli) {
-			if (racine.filsG != nullptr) {
-				racine.filsD = n; //on place dans le fils droit
-			} else {
-				racine.filsG = n; //on place dans le fils gauche
-			}
-		} else {
-			Ajout(racine.filsG, n);
-		}*/
+		 if (racine.filsG != nullptr) {
+		 racine.filsD = n; //on place dans le fils droit
+		 } else {
+		 racine.filsG = n; //on place dans le fils gauche
+		 }
+		 } else {
+		 Ajout(racine.filsG, n);
+		 }*/
 
 		//std::vector<int> instructions(1);
 		//cpt/2 -> 0 ou 1 dans le tab, selon si le res est pair ou impair

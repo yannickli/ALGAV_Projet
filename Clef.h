@@ -52,7 +52,7 @@ bool inf(Clef a1, Clef a2) {
 }
 
 // Methode compare pour trier une liste
-bool compare_Clef(const Clef a, const Clef b) const {
+/*bool compare_Clef(const Clef a, const Clef b) const {
 	if (a.i1 != b.i1)
 		return a.i1 < b.i1;
 	if (a.i2 != b.i2)
@@ -60,6 +60,6 @@ bool compare_Clef(const Clef a, const Clef b) const {
 	if (a.i3 != b.i3)
 		return a.i3 < b.i3;
 	return a.i4 < b.i4;
-}
+}*/
 
 #endif /* CLEF_H_ */
