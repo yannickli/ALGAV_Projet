@@ -9,12 +9,15 @@
 #define TASMINTAB_H_
 
 #include "Noeud.h"
+#include <vector>
 
 class TasMin_Tab {
 private:
-	Noeud[] tas;
+	std::vector<Noeud> tas;
 public:
-	TasMin_Tab(Noeud [] tab);
+	TasMin_Tab(std::vector<Noeud> tab) :
+			tas(tab) {
+	}
 };
 
 #endif /* TASMINTAB_H_ */

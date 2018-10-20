@@ -13,23 +13,14 @@
 
 class Arbre {
 private:
-	Clef clef;
 	Noeud racine;
 	int nbElem;
 	std::vector<int> instructions;
-
-	//friend void SupprMin(Arbre a);
 public:
-	Arbre(Clef c, Noeud n) :
-			instructions(1), clef(c), racine(n) {
-		nbElem = 1;
+	Arbre(Noeud n) :
+			racine(n), nbElem(1) {
+		instructions = new std::vector(1);
 	}
-	/*unsigned int getI1();
-	 unsigned int getI2();
-	 unsigned int getI3();
-	 unsigned int getI4();
-	 bool eg(Arbre a1, Arbre a2);
-	 bool inf(Arbre a1, Arbre a2);*/
 
 	void CheminDernierElem() {
 		//std::vector<int> instructions(1);
@@ -46,7 +37,25 @@ public:
 		//std::vector<int> instructions = CheminDernierElem();
 	}
 
-	void SupprMin(Arbre a);
+	void SupprMin() {
+		Arbre temp;
+		if (racine.filsD != nullptr) {
+			if (racine.filsG != nullptr) {
+				if (inf(racine.filsG.clef, racine.filsD.clef)) { //Fils gauche est plus petit
+					temp = racine.filsG;
+					racine.filsG = racine.filsG.filsG;
+
+				} else {
+					if (eg(racine.filsG.clef, racine.filsD.clef)) {
+
+					}
+				}
+			} else {
+
+			}
+		}
+
+	}
 
 };
 
