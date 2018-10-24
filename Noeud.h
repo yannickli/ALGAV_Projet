@@ -9,6 +9,7 @@
 #define NOEUD_H_
 
 #include "Clef.h"
+#include "Arbre.h"
 
 class Noeud {
 private:
@@ -16,6 +17,7 @@ private:
 	Noeud * pere;
 	Noeud * filsG;
 	Noeud * filsD;
+	friend class Arbre;
 public:
 	Noeud(Clef nclef, Noeud * npere, Noeud * nfilsG, Noeud * nfilsD) :
 			clef(nclef), pere(npere), filsG(nfilsG), filsD(nfilsD) {
@@ -49,10 +51,20 @@ public:
 		}
 		return false;
 	}
+	bool estFilsGauche(Noeud *f) {
+		if (filsG == f)
+			return true;
+		return false;
+	}
+	bool estFilsDroit(Noeud *f) {
+		if (filsD == f)
+			return true;
+		return false;
+	}
 
-	//std::vector<int> instructions(1);
-	//cpt/2 -> 0 ou 1 dans le tab, selon si le res est pair ou impair
-	//on lit le tableau à l'envres pour avoir le chemin de la racine au dernier element
+//std::vector<int> instructions(1);
+//cpt/2 -> 0 ou 1 dans le tab, selon si le res est pair ou impair
+//on lit le tableau à l'envres pour avoir le chemin de la racine au dernier element
 
 };
 
