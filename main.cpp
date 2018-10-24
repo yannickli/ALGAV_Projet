@@ -15,3 +15,4 @@ int main() {
 			(Noeud *) nullptr);
 	Arbre arbre(racine);
 }
+
