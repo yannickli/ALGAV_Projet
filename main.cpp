@@ -11,8 +11,7 @@ using namespace std;
 
 int main() {
 	Clef clef(1, 2, 3, 4);
-	Noeud *racine(clef, (Noeud *) nullptr, (Noeud *) nullptr,
-			(Noeud *) nullptr);
-	Arbre arbre(racine);
+	Noeud racine(clef, nullptr, nullptr, nullptr);
+	Arbre arbre(&racine);
 }
 

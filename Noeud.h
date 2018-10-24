@@ -37,22 +37,23 @@ public:
 		return filsD;
 	}
 
-	void Ajout(Noeud racine, Noeud n) { //marche pas encore
-		return;
-		/*if (!racine.rempli) {
-		 if (racine.filsG != nullptr) {
-		 racine.filsD = n; //on place dans le fils droit
-		 } else {
-		 racine.filsG = n; //on place dans le fils gauche
-		 }
-		 } else {
-		 Ajout(racine.filsG, n);
-		 }*/
-
-		//std::vector<int> instructions(1);
-		//cpt/2 -> 0 ou 1 dans le tab, selon si le res est pair ou impair
-		//on lit le tableau à l'envres pour avoir le chemin de la racine au dernier element
+	// Ajout dans le fils direct du noeud, retourne false s'il a deja deux fils
+	bool Ajout(Noeud origine, Noeud n) {
+		if (origine.filsG == nullptr) {
+			origine.filsG = &n; //on place dans le fils droit
+			return true;
+		}
+		if (origine.filsD == nullptr) {
+			origine.filsD = &n; //on place dans le fils gauche
+			return true;
+		}
+		return false;
 	}
+
+	//std::vector<int> instructions(1);
+	//cpt/2 -> 0 ou 1 dans le tab, selon si le res est pair ou impair
+	//on lit le tableau à l'envres pour avoir le chemin de la racine au dernier element
+
 };
 
 #endif /* NOEUD_H_ */

@@ -64,7 +64,7 @@ public:
 				courrant = racine->getFilsD();
 			}
 		}
-		Noeud *tmp = racine;
+		//Noeud *tmp = racine;
 		racine = courrant;
 		courrant = nullptr;
 		while (courrant) {
