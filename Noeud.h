@@ -61,6 +61,9 @@ public:
 			return true;
 		return false;
 	}
+	bool inf(Noeud n) {
+		return n.inf(n.getClef());
+	}
 
 //std::vector<int> instructions(1);
 //cpt/2 -> 0 ou 1 dans le tab, selon si le res est pair ou impair
