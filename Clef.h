@@ -30,7 +30,7 @@ public:
 	int getI4() {
 		return i4;
 	}
-	bool inf(Clef a) {
+	bool operator<(Clef a) {
 		if (i1 != a.getI1())
 			return i1 < a.getI1();
 		if (i2 != a.getI2())

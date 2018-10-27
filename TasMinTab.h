@@ -10,17 +10,19 @@
 
 #include "Noeud.h"
 #include <vector>
+#include <cmath>
+#include <ctgmath>
 
-class TasMin_Tab {
+class TasMinTab {
 private:
-	std::vector<Noeud> tab;
+	std::vector<Clef> tab;
 	int nbElement;
 public:
-	TasMin_Tab(int i) :
-			tab(i) {
+	TasMinTab(int i) :
+			tab(i), nbElement(0) {
 	}
-	TasMin_Tab(std::vector<Noeud> tab) :
-			tab(tab) {
+	TasMinTab(std::vector<Clef> tab) :
+			tab(tab), nbElement(tab.size()) {
 	}
 	void supprMin() {
 		tab[0] = tab[nbElement - 1];
@@ -47,8 +49,42 @@ public:
 			}
 		}
 	}
-	void swap(int s1, int s2) {
-
+	void swap(int c1, int c2) {
+		Clef tmp = tab[c1];
+		tab[c1] = tab[c2];
+		tab[c2] = tmp;
+	}
+	void Ajout(Clef c) {
+		nbElement++;
+		tab.push_back(c);
+		remonter(nbElement - 1);
+	}
+	void remonter(int i) {
+		if (i > 0) {
+			if (i % 2) {
+				if (tab[i] < tab[i / 2]) {
+					swap(i, i / 2);
+					remonter(i / 2);
+				}
+			} else {
+				if (tab[i] < tab[(i - 2) / 2]) {
+					swap(i, (i - 2) / 2);
+					remonter((i - 2) / 2);
+				}
+			}
+		}
+	}
+	void constIter(std::vector<Clef> elm) {
+		for (Clef it : elm) {
+			tab.push_back(it);
+		}
+		int hauteur = log2(nbElement);
+		for (int i = pow(2, hauteur) - 2; i >= 0; i--) {
+			redescendre(i);
+		}
+	}
+	void unionTas(TasMinTab t) {
+		constIter(t.tab);
 	}
 };
 

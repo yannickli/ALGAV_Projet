@@ -61,14 +61,6 @@ public:
 			return true;
 		return false;
 	}
-	bool inf(Noeud n) {
-		return n.inf(n.getClef());
-	}
-
-//std::vector<int> instructions(1);
-//cpt/2 -> 0 ou 1 dans le tab, selon si le res est pair ou impair
-//on lit le tableau à l'envres pour avoir le chemin de la racine au dernier element
-
 };
 
 #endif /* NOEUD_H_ */
