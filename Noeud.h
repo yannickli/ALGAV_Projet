@@ -22,23 +22,18 @@ public:
 	Noeud(Clef nclef, Noeud * npere, Noeud * nfilsG, Noeud * nfilsD) :
 			clef(nclef), pere(npere), filsG(nfilsG), filsD(nfilsD) {
 	}
-
 	Clef getClef() {
 		return clef;
 	}
-
 	Noeud* getPere() {
 		return pere;
 	}
-
 	Noeud* getFilsG() {
 		return filsG;
 	}
-
 	Noeud* getFilsD() {
 		return filsD;
 	}
-
 	// Ajout dans le fils direct du noeud, retourne false s'il a deja deux fils
 	bool Ajout(Noeud origine, Noeud n) {
 		if (origine.filsG == nullptr) {

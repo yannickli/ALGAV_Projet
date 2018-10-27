@@ -6,12 +6,25 @@
  */
 
 #include "Arbre.h"
+#include "TasMinTab.h"
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
 int main() {
-	Clef clef(1, 2, 3, 4);
-	Noeud racine(clef, nullptr, nullptr, nullptr);
-	Arbre arbre(&racine);
+	ifstream fichier("cles_alea/jeu_1_nb_cles_100.txt", ios::in);
+	if (fichier) {
+		string ligne;
+
+		while (getline(fichier, ligne)) {
+			cout << ligne << endl;
+
+		}
+		fichier.close();
+	} else {
+		cout << "Erreur de lecture" << endl;
+	}
+	return 0;
 }
 
