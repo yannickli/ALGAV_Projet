@@ -12,30 +12,30 @@
 
 class Clef {
 private:
-	int i1;
-	int i2;
-	int i3;
-	int i4;
+	unsigned int i1;
+	unsigned int i2;
+	unsigned int i3;
+	unsigned int i4;
 public:
 	Clef() {
 		std::cout << "Erreur" << std::endl;
 	}
-	Clef(int a, int b, int c, int d) :
+	Clef(unsigned int a, unsigned int b, unsigned int c, unsigned int d) :
 			i1(a), i2(b), i3(c), i4(d) {
 	}
 	Clef(const Clef & c) :
 			i1(c.i1), i2(c.i2), i3(c.i3), i4(c.i4) {
 	}
-	int getI1() {
+	unsigned int getI1() {
 		return i1;
 	}
-	int getI2() {
+	unsigned int getI2() {
 		return i2;
 	}
-	int getI3() {
+	unsigned int getI3() {
 		return i3;
 	}
-	int getI4() {
+	unsigned int getI4() {
 		return i4;
 	}
 	bool operator<(Clef a) {
@@ -55,6 +55,7 @@ public:
 						return true;
 		return false;
 	}
+	friend std::ostream& operator<<(std::ostream& os, const Clef& c);
 };
 
 #endif /* CLEF_H_ */

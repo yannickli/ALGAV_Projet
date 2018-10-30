@@ -9,7 +9,6 @@
 #define NOEUD_H_
 
 #include "Clef.h"
-#include "Arbre.h"
 
 class Noeud {
 private:

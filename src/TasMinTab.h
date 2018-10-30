@@ -12,18 +12,17 @@
 #include <vector>
 #include <cmath>
 #include <ctgmath>
+#include <iostream>
 
 class TasMinTab {
 private:
 	std::vector<Clef> tab;
 	int nbElement;
 public:
-	TasMinTab(int i) :
-			tab(i), nbElement(0) {
+	TasMinTab() :
+			nbElement(0) {
 	}
-	TasMinTab(std::vector<Clef> tab) :
-			tab(tab), nbElement(tab.size()) {
-	}
+
 	void supprMin() {
 		tab[0] = tab[nbElement - 1];
 		redescendre(0);
@@ -86,6 +85,7 @@ public:
 	void unionTas(TasMinTab t) {
 		constIter(t.tab);
 	}
+	friend std::ostream& operator<<(std::ostream& os, const TasMinTab& t);
 };
 
 #endif /* TASMINTAB_H_ */
