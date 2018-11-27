@@ -16,6 +16,7 @@
 
 using namespace std;
 
+
 int main() {
 	ifstream fichier("cles_alea/jeu_1_nb_cles_100.txt", ios::in);
 	if (fichier) {
