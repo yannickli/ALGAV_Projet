@@ -15,17 +15,15 @@ class TasMinArbre {
 private:
 	Noeud *racine;
 	int nbElem;
-	Noeud *dernier;
-	std::vector<int> instructions;
 public:
 	TasMinArbre(Noeud *n) :
-			racine(n), nbElem(1), dernier(n) {
+			racine(n), nbElem(1) {
 	}
 
 	/*
-	 * met a jour le pointeur sur le dernier noeud
+	 * DonneMoiLeDernierNoeud
 	 */
-	void majDernier() {
+	Noeud* DonneMoiLeDernier() {
 		std::vector<int> instructions;
 		int cpt = nbElem;
 		while (cpt >= 2) {
@@ -34,22 +32,51 @@ public:
 		}
 		Noeud *tmp = racine;
 		while (!instructions.empty()) {
-			if (instructions.back()) {
-				tmp = racine->getFilsD();
+			if (instructions.back()) { // back() renvoie la valeur du dernier element de instructions
+				tmp = tmp->getFilsD();
 			} else {
-				tmp = racine->getFilsG();
+				tmp = tmp->getFilsG();
 			}
 			instructions.pop_back();
 		}
-		dernier = tmp;
+		return tmp;
 	}
 
 	/*
-	 * Supprime le plus petit element de notre arbre, ici on a un tas donc c'est le racine qu'il faut supprimer.
+	 * Donne le pere du premier noeud vide
+	 */
+	Noeud* DonnePereNoeudVide() {
+		std::vector<int> instructions;
+		int cpt = nbElem + 1;
+		while (cpt >= 2) {
+			instructions.push_back(cpt % 2);
+			cpt /= 2;
+		}
+		Noeud *tmp = racine;
+		while (!instructions.empty()) {
+			if (instructions.back()) { // back() renvoie la valeur du dernier element de instructions
+				if (!tmp->getFilsD()) {
+					return tmp;
+				}
+				tmp = tmp->getFilsD();
+			} else {
+				if (!tmp->getFilsG())
+					return tmp;
+				tmp = tmp->getFilsG();
+			}
+			instructions.pop_back();
+		}
+		return tmp;
+	}
+
+	/*
+	 * Supprime le plus petit element de notre arbre, ici on a un tas donc c'est la racine qu'il faut supprimer.
 	 * Pour effectuer cette suppression, on echange la position de la racine avec le dernier element du tas,
 	 * On supprime ensuite le nouveau dernier element et on descend la racine tant qu'elle est superieur à un de ses fils
 	 */
 	void supprMin() {
+
+		Noeud* dernier = DonneMoiLeDernier();
 
 		racine->filsG->pere = dernier;
 		racine->filsD->pere = dernier;
@@ -57,50 +84,20 @@ public:
 		dernier->filsG = racine->filsG;
 		dernier->filsD = racine->filsD;
 
-		if (dernier->pere->estFilsDroit(dernier)) {
+		if (dernier->suisJeLeFilsDroit()) {
 			dernier->pere->filsD = nullptr;
-		} else if (dernier->pere->estFilsGauche(dernier)) {
+		} else if (dernier->suisJeLeFilsGauche()) {
 			dernier->pere->filsG = nullptr;
 		}
 		dernier->pere = nullptr;
 		racine = dernier;
-
-		//Il faut redescendre la racine si un de ses fils est plus petit;
-
-		majDernier();
+		//penser a delete ancienne racine
 	}
 
-	/*
-	 *dern vaut soit nbElem si on veut le dernier élément,
-	 *soit nbElem+1 si on veut avoir la première postion libre
-	 */
-	void CheminDernierElem(int dern) {
-		int cpt = dern;
-		while (cpt != 1) {
-			instructions.push_back(cpt % 2);
-			cpt -= (int) cpt / 2;
-		}
-		//le vecteur "instructions" possède maintenant le chemin
-
-	}
-
-	void Ajouter(Noeud *n) {
-		Noeud *courrant = racine;
-		int inst;
-		CheminDernierElem(nbElem + 1);  //on cherche la premiere place libre
-		while (!instructions.empty()) {
-			inst = instructions.back();
-			instructions.pop_back();
-			if (inst == 0) {
-				courrant = racine->getFilsG();
-			} else {
-				courrant = racine->getFilsD();
-			}
-		}
-		if (nbElem == 1) {
-			n = racine->getFilsG();
-		} else {
-			n = courrant;
+	void ajouter(Noeud *n) {
+		Noeud *nlibre = DonnePereNoeudVide();
+		if (nlibre->ajout(n) == false) {
+			printf("GROS PROBLEME!");
 		}
 	}
 

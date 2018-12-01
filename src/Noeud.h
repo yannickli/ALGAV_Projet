@@ -18,6 +18,9 @@ private:
 	Noeud * filsD;
 	friend class TasMinArbre;
 public:
+	Noeud(Clef nclef) :
+			clef(nclef), pere(nullptr), filsG(nullptr), filsD(nullptr) {
+	}
 	Noeud(Clef nclef, Noeud * npere, Noeud * nfilsG, Noeud * nfilsD) :
 			clef(nclef), pere(npere), filsG(nfilsG), filsD(nfilsD) {
 	}
@@ -33,26 +36,46 @@ public:
 	Noeud* getFilsD() {
 		return filsD;
 	}
-	// Ajout dans le fils direct du noeud, retourne false s'il a deja deux fils
-	bool Ajout(Noeud origine, Noeud n) {
-		if (origine.filsG == nullptr) {
-			origine.filsG = &n; //on place dans le fils droit
+	// Ajoute le Noeud n dans un des fils, retourne false s'il a deja deux fils
+	bool ajout(Noeud *n) {
+		if (filsG == nullptr) {
+			filsG = n; //on place dans le fils droit
 			return true;
 		}
-		if (origine.filsD == nullptr) {
-			origine.filsD = &n; //on place dans le fils gauche
+		if (filsD == nullptr) {
+			filsD = n; //on place dans le fils gauche
 			return true;
 		}
 		return false;
 	}
-	bool estFilsGauche(Noeud *f) {
+	bool estMonFilsGauche(Noeud *f) {
 		if (filsG == f)
 			return true;
 		return false;
 	}
-	bool estFilsDroit(Noeud *f) {
+	bool estMonFilsDroit(Noeud *f) {
 		if (filsD == f)
 			return true;
+		return false;
+	}
+
+	bool suisJeLeFilsGauche() {
+		std::cout << "test filsG" << std::endl;
+		if (pere->filsG == this) {
+			std::cout << "test filsG" << std::endl;
+			return true;
+		}
+		std::cout << "test filsG" << std::endl;
+		return false;
+	}
+
+	bool suisJeLeFilsDroit() {
+		std::cout << "test filsD" << std::endl;
+		if (pere->filsD == this) {
+			std::cout << "test filsD" << std::endl;
+			return true;
+		}
+		std::cout << "test filsD" << std::endl;
 		return false;
 	}
 };

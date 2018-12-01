@@ -12,6 +12,7 @@
 
 class Clef {
 private:
+	//i1 est l'entier de poids fort
 	unsigned int i1;
 	unsigned int i2;
 	unsigned int i3;

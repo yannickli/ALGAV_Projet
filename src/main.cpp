@@ -17,6 +17,25 @@
 using namespace std;
 
 int main() {
+	//lireFichier();
+	cout << "test" << endl;
+	Clef *c1 = new Clef(1, 2, 3, 4);
+	Noeud* filsG = new Noeud(*c1);
+	Noeud* filsD = new Noeud(*new Clef(5, 6, 7, 8));
+	Noeud* pere = new Noeud(*new Clef(9, 10, 11, 12));
+	TasMinArbre arbre = *new TasMinArbre(pere);
+	cout << "test" << endl;
+	arbre.ajouter(filsG);
+	cout << "test" << endl;
+	bool test1 = filsG->suisJeLeFilsGauche();
+	bool test2 = filsD->suisJeLeFilsDroit();
+	cout << "test" << endl;
+	cout << test1 << endl;
+	cout << test2 << endl;
+	return 0;
+}
+
+int lireFichier() {
 	ifstream fichier("cles_alea/jeu_1_nb_cles_100.txt", ios::in);
 	if (fichier) {
 		string ligne;
