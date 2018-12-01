@@ -9,6 +9,8 @@
 #define NOEUD_H_
 
 #include "Clef.h"
+#include <iostream>
+#include <typeinfo>
 
 class Noeud {
 private:
@@ -49,33 +51,19 @@ public:
 		return false;
 	}
 	bool estMonFilsGauche(Noeud *f) {
-		if (filsG == f)
-			return true;
+		std::cout << "test1" << std::endl;
+		std::cout << (filsG == f) << std::endl;
+		/*{
+
+		 std::cout << "test2" << std::endl;
+		 return true;
+		 }
+		 std::cout << "test3" << std::endl;*/
 		return false;
 	}
 	bool estMonFilsDroit(Noeud *f) {
 		if (filsD == f)
 			return true;
-		return false;
-	}
-
-	bool suisJeLeFilsGauche() {
-		std::cout << "test filsG" << std::endl;
-		if (pere->filsG == this) {
-			std::cout << "test filsG" << std::endl;
-			return true;
-		}
-		std::cout << "test filsG" << std::endl;
-		return false;
-	}
-
-	bool suisJeLeFilsDroit() {
-		std::cout << "test filsD" << std::endl;
-		if (pere->filsD == this) {
-			std::cout << "test filsD" << std::endl;
-			return true;
-		}
-		std::cout << "test filsD" << std::endl;
 		return false;
 	}
 };

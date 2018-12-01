@@ -84,9 +84,9 @@ public:
 		dernier->filsG = racine->filsG;
 		dernier->filsD = racine->filsD;
 
-		if (dernier->suisJeLeFilsDroit()) {
+		if (dernier->pere->estMonFilsDroit(dernier)) {
 			dernier->pere->filsD = nullptr;
-		} else if (dernier->suisJeLeFilsGauche()) {
+		} else if (dernier->pere->estMonFilsGauche(dernier)) {
 			dernier->pere->filsG = nullptr;
 		}
 		dernier->pere = nullptr;
