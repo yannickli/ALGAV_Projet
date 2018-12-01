@@ -11,14 +11,14 @@
 #include "Noeud.h"
 #include "vector"
 
-class Arbre {
+class TasMinArbre {
 private:
 	Noeud *racine;
 	int nbElem;
 	Noeud *dernier;
 	std::vector<int> instructions;
 public:
-	Arbre(Noeud *n) :
+	TasMinArbre(Noeud *n) :
 			racine(n), nbElem(1), dernier(n) {
 	}
 
@@ -66,7 +66,6 @@ public:
 		racine = dernier;
 
 		//Il faut redescendre la racine si un de ses fils est plus petit;
-
 
 		majDernier();
 	}

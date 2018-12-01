@@ -16,7 +16,7 @@ private:
 	Noeud * pere;
 	Noeud * filsG;
 	Noeud * filsD;
-	friend class Arbre;
+	friend class TasMinArbre;
 public:
 	Noeud(Clef nclef, Noeud * npere, Noeud * nfilsG, Noeud * nfilsD) :
 			clef(nclef), pere(npere), filsG(nfilsG), filsD(nfilsD) {
