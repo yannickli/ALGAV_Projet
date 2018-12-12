@@ -16,7 +16,7 @@
 
 using namespace std;
 
-int main() {
+int _main() {
 	//lireFichier();
 	Clef *c1 = new Clef(1, 2, 3, 4);
 	Noeud* filsG = new Noeud(*c1);
