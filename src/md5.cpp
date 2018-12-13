@@ -12,16 +12,14 @@
 
 using namespace std;
 
-string little_endian32(string s){
-	string res="";
-
-
+string little_endian32(string s) {
+	string res = "";
 
 	return res;
 }
 
-string little_endian64(string s){
-	string res='';
+string little_endian64(string s) {
+	string res = "";
 
 	return res;
 }
@@ -33,8 +31,8 @@ int my_md5(string message) {
 			4, 11, 16, 23, 4, 11, 16, 23, 4, 11, 16, 23, 6, 10, 15, 21, 6, 10,
 			15, 21, 6, 10, 15, 21, 6, 10, 15, 21 };
 
-	for (int i=0;i<64;i++){
-		k[i]= floor(abs(sin(i+1))*pow(2,32));
+	for (int i = 0; i < 64; i++) {
+		k[i] = floor(abs(sin(i + 1)) * pow(2, 32));
 	}
 
 	int h0 = 0x67452301;
@@ -43,10 +41,10 @@ int my_md5(string message) {
 	int h3 = 0x10325476;
 
 	message.push_back(1);
-	int taille=448-(message.size()%512);
-	if (taille<0)
-		taille+=512;
-	for (int i=0;i<taille;i++)
+	int taille = 448 - (message.size() % 512);
+	if (taille < 0)
+		taille += 512;
+	for (int i = 0; i < taille; i++)
 		message.push_back(0);
 
 	vector<int> vect;
@@ -54,6 +52,6 @@ int my_md5(string message) {
 	return 0;
 }
 
-int main() {
+int _main() {
 	my_md5("test");
 }

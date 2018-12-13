@@ -16,24 +16,7 @@
 
 using namespace std;
 
-int _main() {
-	//lireFichier();
-	Clef *c1 = new Clef(1, 2, 3, 4);
-	Noeud* filsG = new Noeud(*c1);
-	Noeud* filsD = new Noeud(*new Clef(5, 6, 7, 8));
-	Noeud* pere = new Noeud(*new Clef(9, 10, 11, 12));
-	TasMinArbre arbre = *new TasMinArbre(pere);
-	arbre.ajouter(filsG);
-	arbre.ajouter(filsD);
-	cout << "test" << endl;
-	bool test1 = filsG->getPere()->estMonFilsGauche(filsG);
-	cout << "test" << endl;
-	bool test2 = filsG->getPere()->estMonFilsDroit(filsD);
-	cout << test1 << " " << test2 << endl;
-	return 0;
-
-}
-
+// Fonctionne meme si la cle n'est pas de 128 bits
 int lireFichier() {
 	ifstream fichier("cles_alea/jeu_1_nb_cles_100.txt", ios::in);
 	if (fichier) {
@@ -116,15 +99,56 @@ int lireFichier() {
 
 			Clef * c = new Clef(i1, i2, i3, i4);
 			tab.push_back(*c);
-			cout << *c << endl;
+			//cout << *c << endl;
 		}
 		fichier.close();
-		TasMinTab * tasMinTab = new TasMinTab();
-		tasMinTab->constIter(tab);
-		//std::cout << *tasMinTab << endl;
+		TasMinTab * tas = new TasMinTab();
+		//TasMinArbre * tas = new TasMinArbre();
+		tas->constIter(tab);
+		tas->afficher();
 	} else {
 		cout << "Erreur de lecture" << endl;
 	}
 	return 0;
+}
+
+int main() {
+	lireFichier();
+
+	/*Clef *c1 = new Clef(1, 2, 3, 4);
+	 Clef *c2 = new Clef(5, 6, 7, 8);
+	 Clef *c3 = new Clef(9, 10, 11, 12);
+	 Noeud* filsG = new Noeud(*c2);
+	 Noeud* filsD = new Noeud(*c3);
+	 Noeud* pere = new Noeud(*c1);
+	 TasMinArbre *arbre = new TasMinArbre(pere);
+	 arbre->ajouter(filsG);
+	 arbre->ajouter(filsD);
+	 arbre->afficher();*/
+	/*cout << "Supression du min" << endl;
+	 arbre->supprMin();
+	 arbre->afficher();
+	 cout << "Supression du min" << endl;
+	 arbre->supprMin();
+	 arbre->afficher();*/
+	/*cout << "Ajout" << endl;
+	 arbre->ajouter(new Noeud(*new Clef()));
+	 cout << "Ajout" << endl;
+	 arbre->ajouter(new Noeud(*new Clef(13, 14, 15, 16)));
+	 cout << "Ajout" << endl;
+	 arbre->ajouter(new Noeud(*new Clef(17, 18, 19, 20)));
+	 cout << "Ajout" << endl;
+	 arbre->ajouter(new Noeud(*new Clef(21, 22, 23, 24)));
+	 cout << "Ajout" << endl;
+	 arbre->ajouter(new Noeud(*new Clef(25, 26, 27, 28)));
+	 cout << "Ajout" << endl;
+	 arbre->ajouter(new Noeud(*new Clef(29, 30, 31, 32)));
+	 cout << "Ajout" << endl;
+	 arbre->ajouter(new Noeud(*new Clef(33, 34, 35, 36)));
+	 cout << "Test final" << endl;
+	 arbre->afficher();*/
+
+	return 0;
+
 }
 

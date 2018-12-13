@@ -53,7 +53,7 @@ public:
 		tab[c1] = tab[c2];
 		tab[c2] = tmp;
 	}
-	void Ajout(Clef c) {
+	void ajout(Clef c) {
 		nbElement++;
 		tab.push_back(c);
 		remonter(nbElement - 1);
@@ -84,6 +84,9 @@ public:
 	}
 	void unionTas(TasMinTab t) {
 		constIter(t.tab);
+	}
+	void afficher() {
+		std::cout << *this << std::endl;
 	}
 	friend std::ostream& operator<<(std::ostream& os, const TasMinTab& t);
 };
