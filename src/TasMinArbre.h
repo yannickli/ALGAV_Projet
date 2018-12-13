@@ -228,6 +228,48 @@ public:
 			ajouter(new Noeud(c));
 		}
 	}
+
+	bool testN(Noeud * n, int *nb) {
+		Noeud * fg = n->filsG;
+		Noeud * fd = n->filsD;
+		(*nb)++;
+		if (fg) {
+			if (fd) {
+				if (n->clef < fg->clef && n->clef < fd->clef) {
+					if (testN(fd, nb) && testN(fg, nb)) {
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				if (n->clef < fg->clef) {
+					if (testN(fg, nb)) {
+						return true;
+					} else {
+						return false;
+					}
+				} else
+					return false;
+			}
+		} else {
+			return true;
+		}
+	}
+
+	// Permet de tester que notre TasMin est bien implementé
+	// Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
+	// La fonction retourne le nombre de noeud teste
+	int tester() {
+		int nbNoeud = 0;
+		if (testN(racine, &nbNoeud))
+			return nbNoeud;
+		else
+			return 0;
+	}
+
 }
 ;
 

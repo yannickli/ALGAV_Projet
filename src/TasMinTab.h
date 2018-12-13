@@ -22,29 +22,38 @@ public:
 	TasMinTab() :
 			nbElement(0) {
 	}
-
+	int pere(int i) {
+		return (i - 1) / 2;
+	}
+	int filsG(int i) {
+		return 2 * i + 1;
+	}
+	int filsD(int i) {
+		return 2 * i + 2;
+	}
 	void supprMin() {
 		tab[0] = tab[nbElement - 1];
-		redescendre(0);
+		tab.pop_back();
 		nbElement--;
+		redescendre(0);
 	}
 	void redescendre(int i) {
-		if (2 * i + 2 <= nbElement - 1) {
-			if (tab[2 * i + 1] < tab[2 * i + 2]) {
-				if (tab[2 * i + 1] < tab[i]) {
-					swap(2 * i + 1, i);
-					redescendre(2 * i + 1);
+		if (filsD(i) <= nbElement - 1) {
+			if (tab[filsG(i)] < tab[filsD(i)]) {
+				if (tab[filsG(i)] < tab[i]) {
+					swap(filsG(i), i);
+					redescendre(filsG(i));
 				}
 			} else {
-				if (tab[2 * i + 2] < tab[i]) {
-					swap(2 * i + 2, i);
-					redescendre(2 * i + 2);
+				if (tab[filsD(i)] < tab[i]) {
+					swap(filsD(i), i);
+					redescendre(filsD(i));
 				}
 			}
-		} else if (2 * i + 1 <= nbElement - 1) {
-			if (tab[2 * i + 1] < tab[i]) {
-				swap(2 * i + 1, i);
-				redescendre(2 * i + 1);
+		} else if (filsG(i) <= nbElement - 1) {
+			if (tab[filsG(i)] < tab[i]) {
+				swap(filsG(i), i);
+				redescendre(filsG(i));
 			}
 		}
 	}
@@ -54,22 +63,15 @@ public:
 		tab[c2] = tmp;
 	}
 	void ajout(Clef c) {
-		nbElement++;
 		tab.push_back(c);
+		nbElement++;
 		remonter(nbElement - 1);
 	}
 	void remonter(int i) {
 		if (i > 0) {
-			if (i % 2) {
-				if (tab[i] < tab[i / 2]) {
-					swap(i, i / 2);
-					remonter(i / 2);
-				}
-			} else {
-				if (tab[i] < tab[(i - 2) / 2]) {
-					swap(i, (i - 2) / 2);
-					remonter((i - 2) / 2);
-				}
+			if (tab[i] < tab[pere(i)]) {
+				swap(i, pere(i));
+				remonter(pere(i));
 			}
 		}
 	}
@@ -88,6 +90,47 @@ public:
 	void afficher() {
 		std::cout << *this << std::endl;
 	}
+	bool testN(int i, int *nb) {
+		int fg = filsG(i);
+		int fd = filsD(i);
+		(*nb)++;
+		if (fg) {
+			if (fd) {
+				if (tab[i] < tab[fg] && tab[i] < tab[fd]) {
+					if (testN(fd, nb) && testN(fg, nb)) {
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				if (tab[i] < tab[fg]) {
+					if (testN(fg, nb)) {
+						return true;
+					} else {
+						return false;
+					}
+				} else
+					return false;
+			}
+		} else {
+			return true;
+		}
+	}
+
+// Permet de tester que notre TasMin est bien implementé
+// Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
+// La fonction retourne le nombre de noeud teste
+	int tester() {
+		int nbNoeud = 0;
+		if (testN(0, &nbNoeud))
+			return nbNoeud;
+		else
+			return 0;
+	}
+
 	friend std::ostream& operator<<(std::ostream& os, const TasMinTab& t);
 };
 

@@ -106,6 +106,7 @@ int lireFichier() {
 		//TasMinArbre * tas = new TasMinArbre();
 		tas->constIter(tab);
 		tas->afficher();
+		cout << tas->tester() << endl;
 	} else {
 		cout << "Erreur de lecture" << endl;
 	}
