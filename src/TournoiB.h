@@ -9,7 +9,57 @@
 #define SRC_TOURNOIB_H_
 
 class TournoiB {
+private:
 
+public:
+	bool estVide(){
+
+
+
+
+
+
+
+
+		return false;
+	}
+	int degre(){
+
+
+
+
+
+
+
+		return 0;
+	}
+	void union2Tid(TournoiB T){
+
+
+
+
+
+	}
+	FileB decapite(){
+
+
+
+
+
+
+
+		return nullptr;
+	}
+	FileB file(){
+
+
+
+
+
+
+
+		return nullptr;
+	}
 };
 
 #endif /* SRC_TOURNOIB_H_ */
