@@ -17,10 +17,10 @@
 class TasMinTab {
 private:
 	std::vector<Clef> tab;
-	int nbElement;
+	int nbElem;
 public:
 	TasMinTab() :
-			nbElement(0) {
+			nbElem(0) {
 	}
 	int pere(int i) {
 		return (i - 1) / 2;
@@ -32,13 +32,13 @@ public:
 		return 2 * i + 2;
 	}
 	void supprMin() {
-		tab[0] = tab[nbElement - 1];
+		tab[0] = tab[nbElem - 1];
 		tab.pop_back();
-		nbElement--;
+		nbElem--;
 		redescendre(0);
 	}
 	void redescendre(int i) {
-		if (filsD(i) <= nbElement - 1) {
+		if (filsD(i) <= nbElem - 1) {
 			if (tab[filsG(i)] < tab[filsD(i)]) {
 				if (tab[filsG(i)] < tab[i]) {
 					swap(filsG(i), i);
@@ -50,7 +50,7 @@ public:
 					redescendre(filsD(i));
 				}
 			}
-		} else if (filsG(i) <= nbElement - 1) {
+		} else if (filsG(i) <= nbElem - 1) {
 			if (tab[filsG(i)] < tab[i]) {
 				swap(filsG(i), i);
 				redescendre(filsG(i));
@@ -62,10 +62,10 @@ public:
 		tab[c1] = tab[c2];
 		tab[c2] = tmp;
 	}
-	void ajout(Clef c) {
-		tab.push_back(c);
-		nbElement++;
-		remonter(nbElement - 1);
+	void ajout(Clef *c) {
+		tab.push_back(*c);
+		nbElem++;
+		remonter(nbElem - 1);
 	}
 	void remonter(int i) {
 		if (i > 0) {
@@ -78,8 +78,9 @@ public:
 	void constIter(std::vector<Clef> elm) {
 		for (Clef it : elm) {
 			tab.push_back(it);
+			nbElem++;
 		}
-		int hauteur = log2(nbElement);
+		int hauteur = log2(nbElem);
 		for (int i = pow(2, hauteur) - 2; i >= 0; i--) {
 			redescendre(i);
 		}
@@ -88,16 +89,20 @@ public:
 		constIter(t.tab);
 	}
 	void afficher() {
-		std::cout << *this << std::endl;
+		std::cout << *this;
+		std::cout << "Il y a " << nbElem << " cles." << std::endl;
 	}
 	bool testN(int i, int *nb) {
 		int fg = filsG(i);
 		int fd = filsD(i);
 		(*nb)++;
-		if (fg) {
-			if (fd) {
+		if (fg < nbElem) {
+			if (fd < nbElem) {
+				/*std::cout << "Je suis : " << tab[i] << "; Mon fils gauche : "
+				 << tab[fg] << "; Mon fils droit : " << tab[fd]
+				 << std::endl;*/
 				if (tab[i] < tab[fg] && tab[i] < tab[fd]) {
-					if (testN(fd, nb) && testN(fg, nb)) {
+					if (testN(fg, nb) && testN(fd, nb)) {
 						return true;
 					} else {
 						return false;
@@ -124,11 +129,13 @@ public:
 // Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
 // La fonction retourne le nombre de noeud teste
 	int tester() {
-		int nbNoeud = 0;
-		if (testN(0, &nbNoeud))
-			return nbNoeud;
-		else
+		int cpt = 0;
+		if (testN(0, &cpt))
+			return cpt == nbElem;
+		else {
+			std::cout << cpt << std::endl;
 			return 0;
+		}
 	}
 
 	friend std::ostream& operator<<(std::ostream& os, const TasMinTab& t);

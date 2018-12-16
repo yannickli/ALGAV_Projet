@@ -22,10 +22,10 @@ public:
 	TasMinArbre(Noeud *n) :
 			racine(n), nbElem(1) {
 	}
-
-	/*
-	 * DonneMoiLeDernierNoeud
-	 */
+	Noeud * getRacine() {
+		return racine;
+	}
+	// Renvoie le dernier noeud de notre tas
 	Noeud* DonneMoiLeDernier() {
 		std::vector<int> instructions;
 		int cpt = nbElem;
@@ -45,9 +45,7 @@ public:
 		return tmp;
 	}
 
-	/*
-	 * Donne le pere du premier noeud vide
-	 */
+	// Donne le pere du premier noeud vide
 	Noeud* DonnePereNoeudVide() {
 		std::vector<int> instructions;
 		int cpt = nbElem + 1;
@@ -72,6 +70,7 @@ public:
 		return tmp;
 	}
 
+	// Echange la position du noeud pere avec son fils gauche
 	Noeud * echangeAvecFilsG(Noeud* pere) {
 		Noeud * fg = pere->getFilsG();
 
@@ -98,6 +97,7 @@ public:
 		return fg;
 	}
 
+	// Echange la position du noeud pere avec son fils droit
 	Noeud * echangeAvecFilsD(Noeud * pere) {
 		Noeud * fd = pere->getFilsD();
 
@@ -126,6 +126,8 @@ public:
 		return fd;
 	}
 
+	// Permet de retablir les proprietes de tas min en descendant a partir du noeud origine
+	// Utilise pour la supression de la racine
 	void tamiser_bas(Noeud *origine) {
 		Noeud * retour;
 		if (origine->getFilsG()
@@ -151,7 +153,7 @@ public:
 				tamiser_bas(retour->filsD);
 			}
 		}
-		if (racine == origine)
+		if (origine == racine)
 			racine = retour;
 	}
 
@@ -180,6 +182,8 @@ public:
 		nbElem--;
 	}
 
+	// Permet de retablir les proprietes de tas min en remontant a partir du dernier noeud
+	// Utilise pour l'ajout
 	void tamiser_haut(Noeud *origine) {
 		Noeud * retour = racine;
 		if (origine->pere && origine->pere->clef > origine->clef) {
@@ -204,6 +208,7 @@ public:
 
 	}
 
+	// Ajoute le noeud n a notre tas
 	void ajouter(Noeud *n) {
 		Noeud *nlibre = DonnePereNoeudVide();
 		//std::cout << nbElem << " : " << nlibre->getClef() << std::endl << "Ajout de " << n->clef << std::endl;
@@ -215,12 +220,44 @@ public:
 		tamiser_haut(n);
 	}
 
+	// Affichage en parcours prefixe
 	void afficher() {
 		racine->afficher();
 	}
 
-// Faux constIter
+	// Permet de construire un tas min a partir de tab
 	void constIter(std::vector<Clef> tab) {
+		std::vector<Noeud *> tmp;
+		for (Clef c : tab) {
+			tmp.push_back(new Noeud(c));
+			nbElem++;
+		}
+		racine = tmp[0];
+		int hauteur = log2(nbElem);
+		if (nbElem >= 3) {
+			tmp[0]->setFilsG(tmp[1]);
+			tmp[0]->setFilsD(tmp[2]);
+		} else {
+			if (nbElem == 2)
+				tmp[0]->setFilsG(tmp[1]);
+		}
+		for (int i = 1; i < pow(2, hauteur) - 1; i++) {
+			tmp[i]->setPere(tmp[(i - 1) / 2]);
+			if (2 * i + 1 < nbElem)
+				tmp[i]->setFilsG(tmp[2 * i + 1]);
+			if (2 * i + 2 < nbElem)
+				tmp[i]->setFilsD(tmp[2 * i + 2]);
+		}
+		for (int i = pow(2, hauteur) - 1; i < nbElem; i++) {
+			tmp[i]->setPere(tmp[(i - 1) / 2]);
+		}
+		for (int i = pow(2, hauteur) - 2; i >= 0; i--) {
+			tamiser_bas(tmp[i]);
+		}
+	}
+
+	// constIter naif
+	void constIterNaif(std::vector<Clef> tab) {
 		racine = new Noeud(tab.back());
 		nbElem = 1;
 		tab.pop_back();
@@ -229,14 +266,44 @@ public:
 		}
 	}
 
+	// Ajoute la cle du noeud n au vecteur vec
+	void addToVector(Noeud *n, std::vector<Clef>* vec) {
+		if (n == nullptr)
+			return;
+		vec->push_back(n->getClef());
+		addToVector(n->filsG, vec);
+		addToVector(n->filsD, vec);
+	}
+
+	// Transforme notre arbre en vecteur
+	std::vector<Clef> toVector() {
+		std::vector<Clef> * res = new std::vector<Clef>();
+		addToVector(racine, res);
+		return *res;
+	}
+
+	// Fonction qui fait l'union des deux tas passes en parametres
+	friend TasMinArbre* union2Arbre(TasMinArbre *t1, TasMinArbre *t2) {
+		std::vector<Clef> v1 = t1->toVector();
+		std::vector<Clef> v2 = t2->toVector();
+		TasMinArbre * res = new TasMinArbre();
+		v1.insert(v1.end(), v2.begin(), v2.end());
+		res->constIter(v1);
+		return res;
+	}
+
+	// Test si un noeud respecte les proprietes du tas min i.e. si la cle du noeud est plus petite que celle de ses fils
 	bool testN(Noeud * n, int *nb) {
 		Noeud * fg = n->filsG;
 		Noeud * fd = n->filsD;
 		(*nb)++;
 		if (fg) {
 			if (fd) {
+				/*std::cout << "Je suis : " << n->clef << "; Mon fils gauche : "
+				 << fg->clef << "; Mon fils droit : " << fd->clef
+				 << std::endl;*/
 				if (n->clef < fg->clef && n->clef < fd->clef) {
-					if (testN(fd, nb) && testN(fg, nb)) {
+					if (testN(fg, nb) && testN(fd, nb)) {
 						return true;
 					} else {
 						return false;
@@ -261,12 +328,14 @@ public:
 
 	// Permet de tester que notre TasMin est bien implementé
 	// Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
-	// La fonction retourne le nombre de noeud teste
+	// La fonction retourne 1 si notre tas verifie bien les proprietes de tas min et que l'on a bien teste le bon nombre de noeud
 	int tester() {
 		int nbNoeud = 0;
-		if (testN(racine, &nbNoeud))
-			return nbNoeud;
-		else
+		if (testN(racine, &nbNoeud)) {
+			std::cout << "On a teste " << nbNoeud << "/" << nbElem << " cles."
+					<< std::endl;
+			return nbNoeud == nbElem;
+		} else
 			return 0;
 	}
 

@@ -8,58 +8,63 @@
 #ifndef SRC_TOURNOIB_H_
 #define SRC_TOURNOIB_H_
 
+#include "NoeudT.h"
+#include <vector>
+
 class TournoiB {
 private:
-
+	int nbElem;
+	NoeudT* racine;
+	std::vector<NoeudT*> fils = { };
 public:
-	bool estVide(){
-
-
-
-
-
-
-
-
-		return false;
-	}
-	int degre(){
-
-
-
-
-
-
-
-		return 0;
-	}
-	void union2Tid(TournoiB T){
-
-
-
-
+	TournoiB() :
+			nbElem(0), racine(nullptr) {
 
 	}
-	FileB decapite(){
 
-
-
-
-
-
-
-		return nullptr;
+	TournoiB(NoeudT* racine) :
+			nbElem(1), racine(racine) {
+		fils.emplace_back(racine);
 	}
-	FileB file(){
 
-
-
-
-
-
-
-		return nullptr;
+	std::vector<NoeudT*> getFils() {
+		return fils;
 	}
+
+	bool estVide() {
+		if (nbElem > 0)
+			return false;
+		return true;
+	}
+
+	int degre() {
+		return nbElem;
+	}
+
+	void union2Tid(TournoiB t) {
+		for (NoeudT* n : t.getFils()) {
+			fils.emplace_back(n);
+		}
+		t.racine->setPere(racine);
+		racine->ajout(t.racine);
+		nbElem *= 2;
+	}
+
+	FileB decapite() {
+		std::vector<TournoiB> tb;
+		for (NoeudT nt : fils) {
+			tb.emplace_back(new TournoiB(nt));
+		}
+		FileB fb(tb);
+		return fb;
+	}
+
+	FileB file() {
+		std::vector<TournoiB> tb = { racine };
+		FileB fb(tb);
+		return fb;
+	}
+
 };
 
 #endif /* SRC_TOURNOIB_H_ */
