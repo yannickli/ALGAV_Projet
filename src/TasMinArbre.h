@@ -37,17 +37,9 @@ public:
 		Noeud *tmp = racine;
 		while (!instructions->empty()) {
 			if (instructions->back()) { // back() renvoie la valeur du dernier element de instructions
-				if (tmp->getFilsD() == nullptr) {
-					perror("Erreur fg");
-					exit(10);
-				}
 				tmp = tmp->getFilsD();
 
 			} else {
-				if (tmp->getFilsG() == nullptr) {
-					perror("Erreur fd");
-					exit(11);
-				}
 				tmp = tmp->getFilsG();
 			}
 			instructions->pop_back();
@@ -359,13 +351,13 @@ public:
 // Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
 // La fonction retourne 1 si notre tas verifie bien les proprietes de tas min et que l'on a bien teste le bon nombre de noeud
 	int tester() {
-		int nbNoeud = 0;
-		if (testN(racine, &nbNoeud)) {
-			std::cout << "On a teste " << nbNoeud << "/" << nbElem << " cles."
+		int cpt = 0;
+		if (testN(racine, &cpt)) {
+			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
 					<< std::endl;
-			return nbNoeud == nbElem;
+			return cpt == nbElem;
 		} else {
-			std::cout << "On a teste " << nbNoeud << "/" << nbElem << " cles."
+			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
 					<< std::endl;
 			return 0;
 		}

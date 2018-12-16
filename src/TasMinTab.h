@@ -85,8 +85,13 @@ public:
 			redescendre(i);
 		}
 	}
-	void unionTas(TasMinTab t) {
-		constIter(t.tab);
+	friend TasMinTab* union2Tab(TasMinTab *t1, TasMinTab *t2) {
+		std::vector<Clef*> v1 = t1->tab;
+		std::vector<Clef*> v2 = t2->tab;
+		TasMinTab * res = new TasMinTab();
+		v1.insert(v1.end(), v2.begin(), v2.end());
+		res->constIter(v1);
+		return res;
 	}
 	void afficher() {
 		for (Clef *c : tab)
@@ -131,10 +136,13 @@ public:
 // La fonction retourne le nombre de noeud teste
 	int tester() {
 		int cpt = 0;
-		if (testN(0, &cpt))
+		if (testN(0, &cpt)) {
+			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
+					<< std::endl;
 			return cpt == nbElem;
-		else {
-			std::cout << cpt << std::endl;
+		} else {
+			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
+					<< std::endl;
 			return 0;
 		}
 	}

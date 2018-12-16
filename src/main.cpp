@@ -207,22 +207,24 @@ TasMinTab *lireFichierTab(string file) {
 	return nullptr;
 }
 
-int main() {
-	TasMinArbre *t1 = lireFichierArbre("cles_alea/jeu_1_nb_cles_100.txt");
+// Ce test permet de valider nos structures de la question 2
+int test_structureQ2() {
+	TasMinArbre *t1 = new TasMinArbre();
+	t1 = lireFichierArbre("cles_alea/jeu_1_nb_cles_1000.txt");
 	t1->supprMin();
 	t1->supprMin();
 	t1->ajout(new Noeud(new Clef(3999999999, 0, 0, 0)));
 	t1->supprMin();
-	t1->afficher();
+	//t1->afficher();
+	cout << t1->tester() << endl;
 
-	TasMinArbre *t2 = lireFichierArbre("cles_alea/jeu_1_nb_cles_1000.txt");
-	cout << "Erreur incomming" << endl;
+	TasMinArbre *t2 = new TasMinArbre();
+	t2 = lireFichierArbre("cles_alea/jeu_1_nb_cles_10000.txt");
 	t2->supprMin();
-	cout << "Pas d'erreur" << endl;
 	t2->supprMin();
 	t2->ajout(new Noeud(new Clef(3999999999, 4, 0, 1)));
 	t2->supprMin();
-	t2->afficher();
+	//t2->afficher();
 	cout << t2->tester() << endl;
 
 	TasMinArbre *t3 = union2Arbre(t1, t2);
@@ -230,9 +232,42 @@ int main() {
 	t3->supprMin();
 	t3->ajout(new Noeud(new Clef(3999999999, 5, 0, 2)));
 	t3->supprMin();
-	t3->afficher();
+	//t3->afficher();
 	cout << t3->tester() << endl;
-	return 0;
 
+	TasMinTab *t4 = new TasMinTab();
+	t4 = lireFichierTab("cles_alea/jeu_2_nb_cles_1000.txt");
+	t4->supprMin();
+	t4->supprMin();
+	t4->ajout((new Clef(3999999999, 0, 0, 0)));
+	t4->supprMin();
+	//t4->afficher();
+	cout << t4->tester() << endl;
+
+	TasMinTab *t5 = new TasMinTab();
+	t5 = lireFichierTab("cles_alea/jeu_2_nb_cles_10000.txt");
+	//cout << "Erreur incomming" << endl;
+	t5->supprMin();
+	//cout << "Pas d'erreur" << endl;
+	t5->supprMin();
+	t5->ajout((new Clef(3999999999, 4, 0, 1)));
+	t5->supprMin();
+	//t5->afficher();
+	cout << t5->tester() << endl;
+
+	TasMinTab *t6 = union2Tab(t4, t5);
+	t6->supprMin();
+	t6->supprMin();
+	t6->ajout((new Clef(3999999999, 5, 0, 2)));
+	t6->supprMin();
+	//t6->afficher();
+	cout << t6->tester() << endl;
+
+	return 0;
+}
+
+int main() {
+	test_structureQ2();
+	return 0;
 }
 
