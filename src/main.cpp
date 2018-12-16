@@ -22,7 +22,7 @@ TasMinArbre *lireFichierArbre(string file) {
 	ifstream fichier(file, ios::in);
 	if (fichier) {
 		string ligne;
-		vector<Clef> tab;
+		vector<Clef*> tab;
 		char ci1[11], ci2[11], ci3[11], ci4[11];
 		unsigned int i1 = 0, i2 = 0, i3 = 0, i4 = 0;
 
@@ -99,18 +99,15 @@ TasMinArbre *lireFichierArbre(string file) {
 			ss4 >> i4;
 
 			Clef * c = new Clef(i1, i2, i3, i4);
-			tab.push_back(*c);
+			tab.push_back(c);
 		}
 		fichier.close();
 		TasMinArbre * tas = new TasMinArbre();
-		tas->constIterNaif(tab);
-		//tas->supprMin();
-		tas->tamiser_bas(tas->getRacine());
-		tas->afficher();
-		cout << tas->tester() << endl;
+		tas->constIter(&tab);
 		return tas;
 	} else {
-		cout << "Erreur de lecture" << endl;
+		perror("Erreur de lecture Arbre");
+		exit(4);
 	}
 	return nullptr;
 }
@@ -119,7 +116,7 @@ TasMinTab *lireFichierTab(string file) {
 	ifstream fichier(file, ios::in);
 	if (fichier) {
 		string ligne;
-		vector<Clef> tab;
+		vector<Clef*> tab;
 		char ci1[11], ci2[11], ci3[11], ci4[11];
 		unsigned int i1 = 0, i2 = 0, i3 = 0, i4 = 0;
 
@@ -196,62 +193,45 @@ TasMinTab *lireFichierTab(string file) {
 			ss4 >> i4;
 
 			Clef * c = new Clef(i1, i2, i3, i4);
-			tab.push_back(*c);
+			tab.push_back(c);
 			//cout << *c << endl;
 		}
 		fichier.close();
 		TasMinTab * tas = new TasMinTab();
 		tas->constIter(tab);
-		tas->afficher();
-		cout << tas->tester() << endl;
 		return tas;
 	} else {
-		cout << "Erreur de lecture" << endl;
+		perror("Erreur de lecture Tab");
+		exit(5);
 	}
 	return nullptr;
 }
 
 int main() {
 	TasMinArbre *t1 = lireFichierArbre("cles_alea/jeu_1_nb_cles_100.txt");
-	//TasMinArbre *t2 = lireFichierArbre("cles_alea/jeu_1_nb_cles_200.txt");
-	//TasMinArbre *t3 = union2Arbre(t1, t2);
-	//t3->afficher();
-	//cout << t3->tester() << endl;
-	/*Clef *c1 = new Clef(1, 2, 3, 4);
-	 Clef *c2 = new Clef(5, 6, 7, 8);
-	 Clef *c3 = new Clef(9, 10, 11, 12);
-	 //Noeud* filsG = new Noeud(*c2);
-	 //Noeud* filsD = new Noeud(*c3);
-	 //Noeud* pere = new Noeud(*c1);
-	 TasMinTab *tas = new TasMinTab();
-	 tas->ajout(c1);
-	 tas->ajout(c2);
-	 tas->ajout(c3);
-	 tas->afficher();
-	 cout << "Supression du min" << endl;
-	 arbre->supprMin();
-	 arbre->afficher();
-	 cout << "Supression du min" << endl;
-	 arbre->supprMin();
-	 arbre->afficher();*/
-	/*cout << "Ajout" << endl;
-	 arbre->ajouter(new Noeud(*new Clef()));
-	 cout << "Ajout" << endl;
-	 arbre->ajouter(new Noeud(*new Clef(13, 14, 15, 16)));
-	 cout << "Ajout" << endl;
-	 arbre->ajouter(new Noeud(*new Clef(17, 18, 19, 20)));
-	 cout << "Ajout" << endl;
-	 arbre->ajouter(new Noeud(*new Clef(21, 22, 23, 24)));
-	 cout << "Ajout" << endl;
-	 arbre->ajouter(new Noeud(*new Clef(25, 26, 27, 28)));
-	 cout << "Ajout" << endl;
-	 arbre->ajouter(new Noeud(*new Clef(29, 30, 31, 32)));
-	 cout << "Ajout" << endl;
-	 arbre->ajouter(new Noeud(*new Clef(33, 34, 35, 36)));
-	 cout << "Test final" << endl;
-	 tas->afficher();
-	 cout << tas->tester() << endl*/
+	t1->supprMin();
+	t1->supprMin();
+	t1->ajout(new Noeud(new Clef(3999999999, 0, 0, 0)));
+	t1->supprMin();
+	t1->afficher();
 
+	TasMinArbre *t2 = lireFichierArbre("cles_alea/jeu_1_nb_cles_1000.txt");
+	cout << "Erreur incomming" << endl;
+	t2->supprMin();
+	cout << "Pas d'erreur" << endl;
+	t2->supprMin();
+	t2->ajout(new Noeud(new Clef(3999999999, 4, 0, 1)));
+	t2->supprMin();
+	t2->afficher();
+	cout << t2->tester() << endl;
+
+	TasMinArbre *t3 = union2Arbre(t1, t2);
+	t3->supprMin();
+	t3->supprMin();
+	t3->ajout(new Noeud(new Clef(3999999999, 5, 0, 2)));
+	t3->supprMin();
+	t3->afficher();
+	cout << t3->tester() << endl;
 	return 0;
 
 }

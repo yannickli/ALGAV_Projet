@@ -68,7 +68,6 @@ public:
 	void afficher() {
 		std::cout << i1 << "." << i2 << "." << i3 << "." << i4 << std::endl;
 	}
-	friend std::ostream& operator<<(std::ostream& os, const Clef& c);
 };
 
 #endif /* CLEF_H_ */

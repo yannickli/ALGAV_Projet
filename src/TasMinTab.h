@@ -16,7 +16,7 @@
 
 class TasMinTab {
 private:
-	std::vector<Clef> tab;
+	std::vector<Clef*> tab;
 	int nbElem;
 public:
 	TasMinTab() :
@@ -58,12 +58,12 @@ public:
 		}
 	}
 	void swap(int c1, int c2) {
-		Clef tmp = tab[c1];
+		Clef *tmp = tab[c1];
 		tab[c1] = tab[c2];
 		tab[c2] = tmp;
 	}
 	void ajout(Clef *c) {
-		tab.push_back(*c);
+		tab.push_back(c);
 		nbElem++;
 		remonter(nbElem - 1);
 	}
@@ -75,8 +75,8 @@ public:
 			}
 		}
 	}
-	void constIter(std::vector<Clef> elm) {
-		for (Clef it : elm) {
+	void constIter(std::vector<Clef*> elm) {
+		for (Clef *it : elm) {
 			tab.push_back(it);
 			nbElem++;
 		}
@@ -89,7 +89,8 @@ public:
 		constIter(t.tab);
 	}
 	void afficher() {
-		std::cout << *this;
+		for (Clef *c : tab)
+			c->afficher();
 		std::cout << "Il y a " << nbElem << " cles." << std::endl;
 	}
 	bool testN(int i, int *nb) {
@@ -138,7 +139,6 @@ public:
 		}
 	}
 
-	friend std::ostream& operator<<(std::ostream& os, const TasMinTab& t);
 };
 
 #endif /* TASMINTAB_H_ */

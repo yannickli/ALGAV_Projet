@@ -26,26 +26,37 @@ public:
 		return racine;
 	}
 	// Renvoie le dernier noeud de notre tas
+	// Valide
 	Noeud* DonneMoiLeDernier() {
-		std::vector<int> instructions;
+		std::vector<int> *instructions = new std::vector<int>();
 		int cpt = nbElem;
 		while (cpt >= 2) {
-			instructions.push_back(cpt % 2);
+			instructions->push_back(cpt % 2);
 			cpt /= 2;
 		}
 		Noeud *tmp = racine;
-		while (!instructions.empty()) {
-			if (instructions.back()) { // back() renvoie la valeur du dernier element de instructions
+		while (!instructions->empty()) {
+			if (instructions->back()) { // back() renvoie la valeur du dernier element de instructions
+				if (tmp->getFilsD() == nullptr) {
+					perror("Erreur fg");
+					exit(10);
+				}
 				tmp = tmp->getFilsD();
+
 			} else {
+				if (tmp->getFilsG() == nullptr) {
+					perror("Erreur fd");
+					exit(11);
+				}
 				tmp = tmp->getFilsG();
 			}
-			instructions.pop_back();
+			instructions->pop_back();
 		}
 		return tmp;
 	}
 
-	// Donne le pere du premier noeud vide
+// Donne le pere du premier noeud vide
+// Valide
 	Noeud* DonnePereNoeudVide() {
 		std::vector<int> instructions;
 		int cpt = nbElem + 1;
@@ -70,7 +81,7 @@ public:
 		return tmp;
 	}
 
-	// Echange la position du noeud pere avec son fils gauche
+// Echange la position du noeud pere avec son fils gauche
 	Noeud * echangeAvecFilsG(Noeud* pere) {
 		Noeud * fg = pere->getFilsG();
 
@@ -97,10 +108,9 @@ public:
 		return fg;
 	}
 
-	// Echange la position du noeud pere avec son fils droit
+// Echange la position du noeud pere avec son fils droit
 	Noeud * echangeAvecFilsD(Noeud * pere) {
 		Noeud * fd = pere->getFilsD();
-
 		if (pere->pere) {
 			if (pere->pere->estMonFilsGauche(pere))
 				pere->pere->filsG = fd;
@@ -116,18 +126,43 @@ public:
 
 		fd->setPere(pere->pere);
 		pere->setPere(fd);
-
 		pere->setFilsD(fd->filsD);
 		fd->setFilsD(pere);
-
 		Noeud * tmp = pere->getFilsG();
 		pere->setFilsG(fd->getFilsG());
 		fd->setFilsG(tmp);
+
 		return fd;
 	}
 
-	// Permet de retablir les proprietes de tas min en descendant a partir du noeud origine
-	// Utilise pour la supression de la racine
+	void tamiser_racine() {
+		if (racine->getFilsG()
+				&& (racine->getClef() > racine->getFilsG()->getClef())) {
+			if (racine->getFilsD()
+					&& racine->getClef() > racine->getFilsD()->getClef()) {
+				if (racine->getFilsG()->getClef()
+						< racine->getFilsD()->getClef()) {
+					racine = echangeAvecFilsG(racine);
+					tamiser_bas(racine->filsG);
+				} else {
+					racine = echangeAvecFilsD(racine);
+					tamiser_bas(racine->filsD);
+				}
+			} else {
+				racine = echangeAvecFilsG(racine);
+				tamiser_bas(racine->filsG);
+			}
+		} else {
+			if (racine->getFilsD()
+					&& racine->getClef() > racine->getFilsD()->getClef()) {
+				racine = echangeAvecFilsD(racine);
+				tamiser_bas(racine->filsD);
+			}
+		}
+	}
+
+// Permet de retablir les proprietes de tas min en descendant a partir du noeud origine
+// Utilise pour la supression de la racine
 	void tamiser_bas(Noeud *origine) {
 		Noeud * retour;
 		if (origine->getFilsG()
@@ -153,8 +188,6 @@ public:
 				tamiser_bas(retour->filsD);
 			}
 		}
-		if (origine == racine)
-			racine = retour;
 	}
 
 	/*
@@ -164,32 +197,32 @@ public:
 	 */
 	void supprMin() {
 		Noeud* dernier = DonneMoiLeDernier();
+		if (dernier->pere && dernier->pere->estMonFilsDroit(dernier)) {
+			dernier->pere->filsD = nullptr;
+		} else if (dernier->pere && dernier->pere->estMonFilsGauche(dernier)) {
+			dernier->pere->filsG = nullptr;
+		}
+
+		dernier->pere = nullptr;
+		dernier->filsG = racine->filsG;
+		dernier->filsD = racine->filsD;
+
 		if (racine->getFilsG())
 			racine->filsG->pere = dernier;
 		if (racine->getFilsD())
 			racine->filsD->pere = dernier;
-		dernier->filsG = racine->filsG;
-		dernier->filsD = racine->filsD;
-		if (dernier->pere->estMonFilsDroit(dernier)) {
-			dernier->pere->filsD = nullptr;
-		} else if (dernier->pere->estMonFilsGauche(dernier)) {
-			dernier->pere->filsG = nullptr;
-		}
-		dernier->pere = nullptr;
+
 		racine = dernier;
-		// On peut effacer l'ancienne racine pour liberer de la memoire
-		tamiser_bas(racine);
 		nbElem--;
+		tamiser_racine();
+
 	}
 
-	// Permet de retablir les proprietes de tas min en remontant a partir du dernier noeud
-	// Utilise pour l'ajout
+// Permet de retablir les proprietes de tas min en remontant a partir du dernier noeud
+// Utilise pour l'ajout
 	void tamiser_haut(Noeud *origine) {
 		Noeud * retour = racine;
 		if (origine->pere && origine->pere->clef > origine->clef) {
-			/*std::cout << "origine: " << origine->getClef() << std::endl;
-			 std::cout << "son pere:" << origine->getPere()->getClef()
-			 << std::endl;*/
 			if (origine->pere->estMonFilsGauche(origine)) {
 				retour = echangeAvecFilsG(origine->pere);
 				tamiser_haut(origine);
@@ -208,10 +241,9 @@ public:
 
 	}
 
-	// Ajoute le noeud n a notre tas
-	void ajouter(Noeud *n) {
+// Ajoute le noeud n a notre tas
+	void ajout(Noeud *n) {
 		Noeud *nlibre = DonnePereNoeudVide();
-		//std::cout << nbElem << " : " << nlibre->getClef() << std::endl << "Ajout de " << n->clef << std::endl;
 		if (nlibre->ajout(n) == false) {
 			perror("Probleme dans ajout");
 			exit(1);
@@ -220,15 +252,15 @@ public:
 		tamiser_haut(n);
 	}
 
-	// Affichage en parcours prefixe
+// Affichage en parcours prefixe
 	void afficher() {
 		racine->afficher();
 	}
 
-	// Permet de construire un tas min a partir de tab
-	void constIter(std::vector<Clef> tab) {
+// Permet de construire un tas min a partir de tab
+	void constIter(std::vector<Clef*> *tab) {
 		std::vector<Noeud *> tmp;
-		for (Clef c : tab) {
+		for (Clef *c : *tab) {
 			tmp.push_back(new Noeud(c));
 			nbElem++;
 		}
@@ -256,18 +288,18 @@ public:
 		}
 	}
 
-	// constIter naif
-	void constIterNaif(std::vector<Clef> tab) {
-		racine = new Noeud(tab.back());
+// constIter naif
+	void constIterNaif(std::vector<Clef*> *tab) {
+		racine = new Noeud(tab->back());
 		nbElem = 1;
-		tab.pop_back();
-		for (Clef c : tab) {
-			ajouter(new Noeud(c));
+		tab->pop_back();
+		for (Clef * c : *tab) {
+			ajout(new Noeud(c));
 		}
 	}
 
-	// Ajoute la cle du noeud n au vecteur vec
-	void addToVector(Noeud *n, std::vector<Clef>* vec) {
+// Ajoute la cle du noeud n au vecteur vec
+	void addToVector(Noeud *n, std::vector<Clef*>* vec) {
 		if (n == nullptr)
 			return;
 		vec->push_back(n->getClef());
@@ -275,33 +307,30 @@ public:
 		addToVector(n->filsD, vec);
 	}
 
-	// Transforme notre arbre en vecteur
-	std::vector<Clef> toVector() {
-		std::vector<Clef> * res = new std::vector<Clef>();
+// Transforme notre arbre en vecteur
+	std::vector<Clef*> *toVector() {
+		std::vector<Clef*> * res = new std::vector<Clef*>();
 		addToVector(racine, res);
-		return *res;
+		return res;
 	}
 
-	// Fonction qui fait l'union des deux tas passes en parametres
+// Fonction qui fait l'union des deux tas passes en parametres
 	friend TasMinArbre* union2Arbre(TasMinArbre *t1, TasMinArbre *t2) {
-		std::vector<Clef> v1 = t1->toVector();
-		std::vector<Clef> v2 = t2->toVector();
+		std::vector<Clef*> *v1 = t1->toVector();
+		std::vector<Clef*> *v2 = t2->toVector();
 		TasMinArbre * res = new TasMinArbre();
-		v1.insert(v1.end(), v2.begin(), v2.end());
+		v1->insert(v1->end(), v2->begin(), v2->end());
 		res->constIter(v1);
 		return res;
 	}
 
-	// Test si un noeud respecte les proprietes du tas min i.e. si la cle du noeud est plus petite que celle de ses fils
+// Test si un noeud respecte les proprietes du tas min i.e. si la cle du noeud est plus petite que celle de ses fils
 	bool testN(Noeud * n, int *nb) {
 		Noeud * fg = n->filsG;
 		Noeud * fd = n->filsD;
 		(*nb)++;
 		if (fg) {
 			if (fd) {
-				/*std::cout << "Je suis : " << n->clef << "; Mon fils gauche : "
-				 << fg->clef << "; Mon fils droit : " << fd->clef
-				 << std::endl;*/
 				if (n->clef < fg->clef && n->clef < fd->clef) {
 					if (testN(fg, nb) && testN(fd, nb)) {
 						return true;
@@ -326,17 +355,20 @@ public:
 		}
 	}
 
-	// Permet de tester que notre TasMin est bien implementé
-	// Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
-	// La fonction retourne 1 si notre tas verifie bien les proprietes de tas min et que l'on a bien teste le bon nombre de noeud
+// Permet de tester que notre TasMin est bien implementé
+// Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
+// La fonction retourne 1 si notre tas verifie bien les proprietes de tas min et que l'on a bien teste le bon nombre de noeud
 	int tester() {
 		int nbNoeud = 0;
 		if (testN(racine, &nbNoeud)) {
 			std::cout << "On a teste " << nbNoeud << "/" << nbElem << " cles."
 					<< std::endl;
 			return nbNoeud == nbElem;
-		} else
+		} else {
+			std::cout << "On a teste " << nbNoeud << "/" << nbElem << " cles."
+					<< std::endl;
 			return 0;
+		}
 	}
 
 }

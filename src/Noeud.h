@@ -14,19 +14,19 @@
 
 class Noeud {
 private:
-	Clef clef;
+	Clef *clef;
 	Noeud * pere;
 	Noeud * filsG;
 	Noeud * filsD;
 	friend class TasMinArbre;
 public:
-	Noeud(Clef nclef) :
+	Noeud(Clef *nclef) :
 			clef(nclef), pere(nullptr), filsG(nullptr), filsD(nullptr) {
 	}
-	Noeud(Clef nclef, Noeud * npere, Noeud * nfilsG, Noeud * nfilsD) :
+	Noeud(Clef *nclef, Noeud * npere, Noeud * nfilsG, Noeud * nfilsD) :
 			clef(nclef), pere(npere), filsG(nfilsG), filsD(nfilsD) {
 	}
-	Clef getClef() {
+	Clef* getClef() {
 		return clef;
 	}
 	Noeud* getPere() {
@@ -78,7 +78,7 @@ public:
 		return false;
 	}
 	void afficher() {
-		clef.afficher();
+		clef->afficher();
 		if (filsG != nullptr) {
 			filsG->afficher();
 		}
