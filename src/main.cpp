@@ -210,22 +210,17 @@ TasMinTab *lireFichierTab(string file) {
 // Ce test permet de valider nos structures de la question 2
 int test_structureQ2() {
 	TasMinArbre *t1 = new TasMinArbre();
-	t1 = lireFichierArbre("cles_alea/jeu_1_nb_cles_20000.txt");
+	t1 = lireFichierArbre("cles_alea/jeu_1_nb_cles_50000.txt");
 	t1->supprMin();
 	t1->supprMin();
-	t1->ajout(new Noeud(new Clef(3999999999, 0, 0, 0)));
+	t1->ajout(new Noeud(new Clef(3999999999, 23, 0, 0)));
 	t1->supprMin();
 	//t1->afficher();
-	cout << "Je plante avant";
-	cout << t1->tester() << " Je plante ici" << endl;
-	cout << "Je plante avant";
-	cout << "Je plante avant";
+	cout << t1->tester() << endl;
+
 	TasMinArbre *t2 = new TasMinArbre();
-	cout << "Je plante avant";
-	t2 = lireFichierArbre("cles_alea/jeu_2_nb_cles_20000.txt");
-	cout << "Je plante avant";
+	t2 = lireFichierArbre("cles_alea/jeu_2_nb_cles_10000.txt");
 	t2->supprMin();
-	cout << "Je plante avant";
 	t2->supprMin();
 	t2->ajout(new Noeud(new Clef(3999999999, 4, 0, 1)));
 	t2->supprMin();
@@ -304,8 +299,8 @@ void complexiteConsIterTab() {
 					+ ".txt";
 			TasMinTab *tas = new TasMinTab();
 			// Pour augmenter les temps
-			for (int j = 0; j < 10; j++)
-				tas = lireFichierTab(s);
+			//for (int j = 0; j < 10; j++)
+			tas = lireFichierTab(s);
 			if (!tas->tester()) {
 				//perror("Gros probleme");
 				//exit(100);
@@ -316,10 +311,74 @@ void complexiteConsIterTab() {
 	}
 }
 
+void complexiteUnionArbre() {
+	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
+			"50000" };
+
+	for (string s1 : nom) {
+		clock_t tStart = clock();
+		TasMinArbre *tas1 = lireFichierArbre(
+				"cles_alea/jeu_1_nb_cles_" + s1 + ".txt");
+		TasMinArbre *tas2 = lireFichierArbre(
+				"cles_alea/jeu_2_nb_cles_" + s1 + ".txt");
+		TasMinArbre *tas3 = lireFichierArbre(
+				"cles_alea/jeu_3_nb_cles_" + s1 + ".txt");
+		TasMinArbre *tas4 = lireFichierArbre(
+				"cles_alea/jeu_4_nb_cles_" + s1 + ".txt");
+		TasMinArbre *tas5 = lireFichierArbre(
+				"cles_alea/jeu_5_nb_cles_" + s1 + ".txt");
+		TasMinArbre *res = union2Arbre(tas1, tas2);
+		res = union2Arbre(res, tas3);
+		res = union2Arbre(res, tas4);
+		res = union2Arbre(res, tas5);
+		if (!res->tester()) {
+			perror("Gros probleme");
+			exit(100);
+		}
+		cout << "Taille : " << s1 << " ; Temps : "
+				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) << endl;
+	}
+}
+
+void complexiteUnionTab() {
+	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
+			"50000" };
+
+	for (string s1 : nom) {
+		clock_t tStart = clock();
+		TasMinTab *tas1 = lireFichierTab(
+				"cles_alea/jeu_1_nb_cles_" + s1 + ".txt");
+		TasMinTab *tas2 = lireFichierTab(
+				"cles_alea/jeu_2_nb_cles_" + s1 + ".txt");
+		TasMinTab *tas3 = lireFichierTab(
+				"cles_alea/jeu_3_nb_cles_" + s1 + ".txt");
+		TasMinTab *tas4 = lireFichierTab(
+				"cles_alea/jeu_4_nb_cles_" + s1 + ".txt");
+		TasMinTab *tas5 = lireFichierTab(
+				"cles_alea/jeu_5_nb_cles_" + s1 + ".txt");
+		TasMinTab *res = union2Tab(tas1, tas2);
+		res = union2Tab(res, tas3);
+		res = union2Tab(res, tas4);
+		res = union2Tab(res, tas5);
+		if (!res->tester()) {
+			perror("Gros probleme");
+			exit(100);
+		}
+		cout << "Taille : " << s1 << " ; Temps : "
+				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) << endl;
+	}
+}
+
 int main() {
-	test_structureQ2();
-	//complexiteConsIterArbre();
-	//complexiteConsIterTab()();
+	//test_structureQ2();
+	cout << "ConsIterArbre : " << endl;
+	complexiteConsIterArbre();
+	cout << "ConstIterTab :" << endl;
+	complexiteConsIterTab();
+	cout << "UnionArbre :" << endl;
+	complexiteUnionArbre();
+	cout << "UnionTab :" << endl;
+	complexiteUnionTab();
 	return 0;
 }
 

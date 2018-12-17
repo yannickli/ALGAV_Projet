@@ -28,21 +28,53 @@ public:
 	int getNbElem() {
 		return nbElem;
 	}
-	// Renvoie le dernier noeud de notre tas
-	// Valide
-	Noeud* DonneMoiLeDernier() {
+
+	Noeud* DonneMoiLe(int i) {
 		std::vector<int> *instructions = new std::vector<int>();
-		int cpt = nbElem;
+		int cpt = i + 1;
+		//std::cout << nbElem << std::endl;
 		while (cpt >= 2) {
 			instructions->push_back(cpt % 2);
 			cpt /= 2;
+			//std::cout << instructions->back() << std::endl;
 		}
 		Noeud *tmp = racine;
 		while (!instructions->empty()) {
 			if (instructions->back()) { // back() renvoie la valeur du dernier element de instructions
+				if (tmp->getFilsD() == nullptr)
+					exit(15);
 				tmp = tmp->getFilsD();
 
 			} else {
+				if (tmp->getFilsG() == nullptr)
+					exit(16);
+				tmp = tmp->getFilsG();
+			}
+			instructions->pop_back();
+		}
+		return tmp;
+	}
+
+	// Renvoie le dernier noeud de notre tas
+	Noeud* DonneMoiLeDernier() {
+		std::vector<int> *instructions = new std::vector<int>();
+		int cpt = nbElem;
+		//std::cout << nbElem << std::endl;
+		while (cpt >= 2) {
+			instructions->push_back(cpt % 2);
+			cpt /= 2;
+			//std::cout << instructions->back() << std::endl;
+		}
+		Noeud *tmp = racine;
+		while (!instructions->empty()) {
+			if (instructions->back()) { // back() renvoie la valeur du dernier element de instructions
+				if (tmp->getFilsD() == nullptr)
+					exit(11);
+				tmp = tmp->getFilsD();
+
+			} else {
+				if (tmp->getFilsG() == nullptr)
+					exit(12);
 				tmp = tmp->getFilsG();
 			}
 			instructions->pop_back();
@@ -51,7 +83,6 @@ public:
 	}
 
 // Donne le pere du premier noeud vide
-// Valide
 	Noeud* DonnePereNoeudVide() {
 		std::vector<int> instructions;
 		int cpt = nbElem + 1;
@@ -279,9 +310,11 @@ public:
 		for (int i = pow(2, hauteur) - 1; i < nbElem; i++) {
 			tmp[i]->setPere(tmp[(i - 1) / 2]);
 		}
-		for (int i = pow(2, hauteur) - 2; i >= 0; i--) {
-			tamiser_bas(tmp[i]);
+
+		for (int i = pow(2, hauteur) - 2; i > 0; i--) {
+			tamiser_bas(DonneMoiLe(i));
 		}
+		tamiser_racine();
 	}
 
 // constIter naif
@@ -360,8 +393,6 @@ public:
 			if (cpt != nbElem)
 				std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
 						<< std::endl;
-			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
-					<< std::endl;
 			return cpt == nbElem;
 		} else {
 			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."

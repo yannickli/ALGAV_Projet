@@ -14,15 +14,15 @@
 
 class NoeudT {
 private:
-	Clef clef;
+	Clef *clef;
 	NoeudT * pere;
-	std::vector<NoeudT*> fils = { };
+	std::vector<NoeudT*> *fils = { };
 	friend class TournoiB;
 public:
-	NoeudT(Clef nclef) :
+	NoeudT(Clef *nclef) :
 			clef(nclef), pere(nullptr) {
 	}
-	NoeudT(Clef nclef, NoeudT * npere) :
+	NoeudT(Clef *nclef, NoeudT * npere) :
 			clef(nclef), pere(npere) {
 	}
 	Clef getClef() {
