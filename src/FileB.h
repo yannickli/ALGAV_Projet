@@ -46,13 +46,13 @@ public:
 	}
 
 	friend FileB *reste(FileB *f) {
-		FileB *ff = f;
-		ff->getFile()->remove(minDeg(&f));
-		return ff;
+		std::list<TournoiB *> *liste = f->getFile();
+		liste->remove(minDeg(f));
+		return new FileB(liste);
 	}
 
-	FileB ajoutMin(TournoiB t, FileB f) {
-		f.getFile().emplace_back(t);
+	friend FileB ajoutMin(TournoiB t, FileB f) {
+
 		return f;
 	}
 };
