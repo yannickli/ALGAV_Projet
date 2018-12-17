@@ -78,8 +78,8 @@ public:
 			}
 		}
 	}
-	void consIter(std::vector<Clef*> elm) {
-		for (Clef *it : elm) {
+	void consIter(std::vector<Clef*> *elm) {
+		for (Clef *it : *elm) {
 			tab.push_back(it);
 			nbElem++;
 		}
@@ -88,12 +88,12 @@ public:
 			redescendre(i);
 		}
 	}
-	friend TasMinTab* union2Tab(TasMinTab *t1, TasMinTab *t2) {
-		std::vector<Clef*> v1 = t1->tab;
-		std::vector<Clef*> v2 = t2->tab;
+	friend TasMinTab* union2Tab(TasMinTab t1, TasMinTab t2) {
+		std::vector<Clef*> v1 = t1.tab;
+		std::vector<Clef*> v2 = t2.tab;
 		TasMinTab * res = new TasMinTab();
 		v1.insert(v1.end(), v2.begin(), v2.end());
-		res->consIter(v1);
+		res->consIter(&v1);
 		return res;
 	}
 	void afficher() {

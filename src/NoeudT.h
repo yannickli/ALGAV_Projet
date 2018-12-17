@@ -16,14 +16,16 @@ class NoeudT {
 private:
 	Clef *clef;
 	NoeudT * pere;
-	std::vector<NoeudT*> *fils = { };
+	std::vector<NoeudT*> *fils;
 	friend class TournoiB;
 public:
 	NoeudT(Clef *nclef) :
 			clef(nclef), pere(nullptr) {
+		fils = new std::vector<NoeudT*>();
 	}
 	NoeudT(Clef *nclef, NoeudT * npere) :
 			clef(nclef), pere(npere) {
+		fils = new std::vector<NoeudT*>();
 	}
 	Clef getClef() {
 		return clef;
@@ -43,14 +45,14 @@ public:
 	}
 
 	bool aUnFils() {
-		if (fils.empty())
+		if (fils->empty())
 			return false;
 		return true;
 	}
 
 	// Ajoute le Noeud n dans un des fils, retourne false s'il a deja deux fils
 	void ajout(NoeudT *n) {
-		fils.emplace_back(n);
+		fils->emplace_back(n);
 	}
 	/*bool estMonFilsGauche(Noeud *f) {
 	 if (filsG == nullptr) {
