@@ -24,7 +24,7 @@ public:
 
 	TournoiB(Clef * rac) :
 			racine(rac) {
-		fils = new std::list<TournoiB>();
+		fils = new std::list<TournoiB*>();
 	}
 
 	Clef *getRacine() {
@@ -43,12 +43,12 @@ public:
 		fils = lfils;
 	}
 
-	bool addFils(TournoiB*t) {
-		return fils->push_front(t);
+	void addFils(TournoiB*t) {
+		fils->push_front(t);
 	}
 
 	friend bool estVide(TournoiB*b) {
-		if (racine == nullptr)
+		if (b->getRacine() == nullptr)
 			return true;
 		return false;
 	}
@@ -58,7 +58,7 @@ public:
 	}
 
 	//Union de 2 tournois de meme taille
-	TournoiB *union2Tid(TournoiB *t1, TournoiB *t2) {
+	friend TournoiB *union2Tid(TournoiB *t1, TournoiB *t2) {
 		TournoiB * res = new TournoiB();
 		if (t1->getRacine() < t2->getRacine()) {
 			res->setRacine(t1->getRacine());
@@ -72,17 +72,9 @@ public:
 		return res;
 	}
 
-	friend FileB *decapite(TournoiB *t) {
-		FileB*file = new FileB();
+	friend FileB *decapite(TournoiB *t);
 
-		return file;
-	}
-
-	friend FileB *file(TournoiB *t) {
-		FileB*file = new FileB();
-
-		return file;
-	}
+	friend FileB *toFile(TournoiB *t);
 
 };
 

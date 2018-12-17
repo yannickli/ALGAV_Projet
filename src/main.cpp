@@ -14,6 +14,8 @@
 #include "Noeud.h"
 #include "TasMinArbre.h"
 #include <cstring>
+#include "FileB.h"
+#include "TournoiB.h"
 
 using namespace std;
 
@@ -285,14 +287,15 @@ void complexiteUnionTab() {
 
 int main() {
 	//test_structureQ2();
-	cout << "ConsIterArbre : " << endl;
-	complexiteConsIterArbre();
-	cout << "ConstIterTab :" << endl;
-	//complexiteConsIterTab();
-	cout << "UnionArbre :" << endl;
-	//complexiteUnionArbre();
-	cout << "UnionTab :" << endl;
-	//complexiteUnionTab();
+	/*cout << "ConsIterArbre : " << endl;
+	 complexiteConsIterArbre();
+	 cout << "ConstIterTab :" << endl;
+	 complexiteConsIterTab();
+	 cout << "UnionArbre :" << endl;
+	 complexiteUnionArbre();
+	 cout << "UnionTab :" << endl;
+	 complexiteUnionTab();*/
+
 	return 0;
 }
 
