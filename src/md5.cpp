@@ -54,4 +54,5 @@ int my_md5(string message) {
 
 int _main() {
 	my_md5("test");
+	return 0;
 }

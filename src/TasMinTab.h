@@ -22,6 +22,9 @@ public:
 	TasMinTab() :
 			nbElem(0) {
 	}
+	int getNbElem() {
+		return nbElem;
+	}
 	int pere(int i) {
 		return (i - 1) / 2;
 	}
@@ -75,7 +78,7 @@ public:
 			}
 		}
 	}
-	void constIter(std::vector<Clef*> elm) {
+	void consIter(std::vector<Clef*> elm) {
 		for (Clef *it : elm) {
 			tab.push_back(it);
 			nbElem++;
@@ -90,7 +93,7 @@ public:
 		std::vector<Clef*> v2 = t2->tab;
 		TasMinTab * res = new TasMinTab();
 		v1.insert(v1.end(), v2.begin(), v2.end());
-		res->constIter(v1);
+		res->consIter(v1);
 		return res;
 	}
 	void afficher() {
@@ -137,8 +140,9 @@ public:
 	int tester() {
 		int cpt = 0;
 		if (testN(0, &cpt)) {
-			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
-					<< std::endl;
+			if (cpt != nbElem)
+				std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
+						<< std::endl;
 			return cpt == nbElem;
 		} else {
 			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."

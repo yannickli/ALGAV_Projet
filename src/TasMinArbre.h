@@ -25,6 +25,9 @@ public:
 	Noeud * getRacine() {
 		return racine;
 	}
+	int getNbElem() {
+		return nbElem;
+	}
 	// Renvoie le dernier noeud de notre tas
 	// Valide
 	Noeud* DonneMoiLeDernier() {
@@ -250,8 +253,8 @@ public:
 	}
 
 // Permet de construire un tas min a partir de tab
-	void constIter(std::vector<Clef*> *tab) {
-		std::vector<Noeud *> tmp;
+	void consIter(std::vector<Clef*> *tab) {
+		std::vector<Noeud *> tmp = *new std::vector<Noeud *>();
 		for (Clef *c : *tab) {
 			tmp.push_back(new Noeud(c));
 			nbElem++;
@@ -267,10 +270,11 @@ public:
 		}
 		for (int i = 1; i < pow(2, hauteur) - 1; i++) {
 			tmp[i]->setPere(tmp[(i - 1) / 2]);
-			if (2 * i + 1 < nbElem)
+			if (2 * i + 1 < nbElem) {
 				tmp[i]->setFilsG(tmp[2 * i + 1]);
-			if (2 * i + 2 < nbElem)
-				tmp[i]->setFilsD(tmp[2 * i + 2]);
+				if (2 * i + 2 < nbElem)
+					tmp[i]->setFilsD(tmp[2 * i + 2]);
+			}
 		}
 		for (int i = pow(2, hauteur) - 1; i < nbElem; i++) {
 			tmp[i]->setPere(tmp[(i - 1) / 2]);
@@ -281,7 +285,7 @@ public:
 	}
 
 // constIter naif
-	void constIterNaif(std::vector<Clef*> *tab) {
+	void consIterNaif(std::vector<Clef*> *tab) {
 		racine = new Noeud(tab->back());
 		nbElem = 1;
 		tab->pop_back();
@@ -312,7 +316,7 @@ public:
 		std::vector<Clef*> *v2 = t2->toVector();
 		TasMinArbre * res = new TasMinArbre();
 		v1->insert(v1->end(), v2->begin(), v2->end());
-		res->constIter(v1);
+		res->consIter(v1);
 		return res;
 	}
 
@@ -353,6 +357,9 @@ public:
 	int tester() {
 		int cpt = 0;
 		if (testN(racine, &cpt)) {
+			if (cpt != nbElem)
+				std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
+						<< std::endl;
 			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
 					<< std::endl;
 			return cpt == nbElem;
