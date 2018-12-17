@@ -8,61 +8,80 @@
 #ifndef SRC_TOURNOIB_H_
 #define SRC_TOURNOIB_H_
 
-#include "NoeudT.h"
-#include <vector>
+#include <list>
+#include "Clef.h"
+#include "FileB.h"
 
 class TournoiB {
 private:
-	int nbElem;
-	NoeudT* racine;
-	std::vector<NoeudT*> fils = { };
+	Clef * racine;
+	std::list<TournoiB*> *fils;
 public:
 	TournoiB() :
-			nbElem(0), racine(nullptr) {
-
+			racine(nullptr) {
+		fils = new std::list<TournoiB*>();
 	}
 
-	TournoiB(NoeudT* racine) :
-			nbElem(1), racine(racine) {
-		fils.emplace_back(racine);
+	TournoiB(Clef * rac) :
+			racine(rac) {
+		fils = new std::list<TournoiB>();
 	}
 
-	std::vector<NoeudT*> getFils() {
+	Clef *getRacine() {
+		return racine;
+	}
+
+	std::list<TournoiB*>* getFils() {
 		return fils;
 	}
 
-	bool estVide() {
-		if (nbElem > 0)
-			return false;
-		return true;
+	void setRacine(Clef *c) {
+		racine = c;
 	}
 
-	int degre() {
-		return nbElem;
+	void setFils(std::list<TournoiB*> *lfils) {
+		fils = lfils;
 	}
 
-	void union2Tid(TournoiB t) {
-		for (NoeudT* n : t.getFils()) {
-			fils.emplace_back(n);
+	bool addFils(TournoiB*t) {
+		return fils->push_front(t);
+	}
+
+	friend bool estVide(TournoiB*b) {
+		if (racine == nullptr)
+			return true;
+		return false;
+	}
+
+	friend int degre(TournoiB*b) {
+		return b->getFils()->size();
+	}
+
+	//Union de 2 tournois de meme taille
+	TournoiB *union2Tid(TournoiB *t1, TournoiB *t2) {
+		TournoiB * res = new TournoiB();
+		if (t1->getRacine() < t2->getRacine()) {
+			res->setRacine(t1->getRacine());
+			res->setFils(t1->getFils());
+			res->addFils(t2);
+		} else {
+			res->setRacine(t2->getRacine());
+			res->setFils(t2->getFils());
+			res->addFils(t1);
 		}
-		t.racine->setPere(racine);
-		racine->ajout(t.racine);
-		nbElem *= 2;
+		return res;
 	}
 
-	FileB decapite() {
-		std::vector<TournoiB> tb;
-		for (NoeudT nt : fils) {
-			tb.emplace_back(new TournoiB(nt));
-		}
-		FileB fb(tb);
-		return fb;
+	friend FileB *decapite(TournoiB *t) {
+		FileB*file = new FileB();
+
+		return file;
 	}
 
-	FileB file() {
-		std::vector<TournoiB> tb = { racine };
-		FileB fb(tb);
-		return fb;
+	friend FileB *file(TournoiB *t) {
+		FileB*file = new FileB();
+
+		return file;
 	}
 
 };

@@ -288,11 +288,11 @@ int main() {
 	cout << "ConsIterArbre : " << endl;
 	complexiteConsIterArbre();
 	cout << "ConstIterTab :" << endl;
-	complexiteConsIterTab();
+	//complexiteConsIterTab();
 	cout << "UnionArbre :" << endl;
-	complexiteUnionArbre();
+	//complexiteUnionArbre();
 	cout << "UnionTab :" << endl;
-	complexiteUnionTab();
+	//complexiteUnionTab();
 	return 0;
 }
 

@@ -9,54 +9,46 @@
 #define SRC_FILEB_H_
 
 #include "TournoiB.h"
-#include <vector>
+#include <list>
 
 class FileB {
 private:
-	std::vector<TournoiB> file = { };
+	std::list<TournoiB *> *file;
 public:
 	FileB() {
+		file = new std::list<TournoiB*>();
 	}
 
-	FileB(std::vector<TournoiB> file) :
-			file(file) {
+	FileB(std::list<TournoiB *> *liste) {
+		file = liste;
 	}
 
-	bool estVide() {
-		return file.empty();
-	}
-
-	std::vector<TournoiB> getFile() {
+	std::list<TournoiB*> * getFile() {
 		return file;
 	}
 
-	TournoiB minDef() {
-		int min = file[0].degre();
-		TournoiB mint = file[0];
-		for (TournoiB t : file) {
-			if (t.degre() < min) {
-				min = t.degre();
+	friend bool estVide(FileB *f) {
+		return f->getFile()->size() == 0;
+	}
+
+	friend TournoiB *minDeg(FileB *f) {
+		std::list<TournoiB*> *liste = f->getFile();
+		TournoiB * mint = liste->back();
+		int min = degre(mint);
+
+		for (TournoiB *t : liste) {
+			if (degre(t) < min) {
 				mint = t;
+				mint = degre(t);
 			}
 		}
 		return mint;
 	}
 
-	FileB reste() {
-		int indice = 0;
-		int indiceT = 0;
-		int min = file[0].degre();
-		TournoiB mint = file[0];
-		for (TournoiB t : file) {
-			if (t.degre() < min) {
-				min = t.degre();
-				mint = t;
-				indiceT = indice;
-			}
-			indice++;
-		}
-		file.erase(file.begin() + indiceT);
-		return this;
+	friend FileB *reste(FileB *f) {
+		FileB *ff = f;
+		ff->getFile()->remove(minDeg(&f));
+		return ff;
 	}
 
 	FileB ajoutMin(TournoiB t, FileB f) {
