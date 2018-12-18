@@ -11,6 +11,7 @@
 #include "FileB.h"
 #include "TournoiB.h"
 #include <stdio.h>
+#include <cmath>
 
 using namespace std;
 
@@ -94,9 +95,19 @@ FileB * uFret(FileB *F1, FileB *F2, TournoiB *T) {
 
 void afficher(FileB*F) {
 	for (TournoiB * tb : *F->getFile()) {
+		//cout << tb->getFils()->size() << endl;
 		cout << ">>" << endl;
 		afficher(tb);
 	}
+}
+
+void afficherTaille(FileB*F) {
+	int cpt = 0;
+	for (TournoiB * tb : *F->getFile()) {
+		cpt += pow(2, tb->getFils()->size());
+		cout << tb->getFils()->size() << endl;
+	}
+	cout << "cpt = " << cpt << endl;
 }
 
 #endif /* SRC_FILEB_CPP_ */

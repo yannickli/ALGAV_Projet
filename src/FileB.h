@@ -34,6 +34,8 @@ public:
 	friend FileB * uFret(FileB *F1, FileB *F2, TournoiB *T);
 
 	friend void afficher(FileB*F);
+
+	friend void afficherTaille(FileB*F);
 };
 
 #endif /* SRC_FILEB_H_ */

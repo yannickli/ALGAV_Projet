@@ -13,21 +13,21 @@
 #include <cstring>
 #include <vector>
 
-using namespace std;
+std::string little_endian32(std::string s) {
+	std::string res = "";
 
-string little_endian32(string s) {
-	string res = "";
+	std::cout << "taille : " << sizeof(int) << std::endl;
+
+	return s;
+}
+
+std::string little_endian64(std::string s) {
+	std::string res = "";
 
 	return res;
 }
 
-string little_endian64(string s) {
-	string res = "";
-
-	return res;
-}
-
-int my_md5(string message) {
+int my_md5(std::string message) {
 	int k[64];
 	int r[64] = { 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 5,
 			9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 5, 9, 14, 20, 4, 11, 16, 23,
@@ -43,23 +43,27 @@ int my_md5(string message) {
 	int h2 = 0x98BADCFE;
 	int h3 = 0x10325476;
 
-	cout << message << endl;
+	std::cout << message << std::endl;
 	message.push_back('1');
-	cout << message << endl;
+	std::cout << message << std::endl;
 	int taille = 448 - (message.size() % 512);
 	if (taille < 0)
 		taille += 512;
 	for (int i = 0; i < taille; i++)
 		message.push_back('0');
-	cout << message << endl;
-	cout << message.size() << endl;
-	vector<int> vect;
+	std::cout << message << std::endl;
+	std::cout << message.size() << std::endl;
+	std::vector<int> vect;
 
 	return 0;
 }
 
 int main_md5() {
 	my_md5("test");
+	std::string s1 = "String De Test Pour Le Projet 32";
+	std::cout << s1.size() << " : " << s1 << std::endl;
+	std::string s2 = little_endian32(s1);
+	std::cout << "Apres Little : " << s2 << std::endl;
 	return 0;
 }
 

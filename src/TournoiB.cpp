@@ -10,6 +10,9 @@
 
 #include "FileB.h"
 #include "TournoiB.h"
+#include <iostream>
+
+using namespace std;
 
 TournoiB::TournoiB() :
 		racine(nullptr) {

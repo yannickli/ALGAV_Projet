@@ -307,9 +307,32 @@ void test_FileB() {
 	FileB *fb4 = toFile(new TournoiB(new Clef(4, 6, 2, 5)));
 	FileB *fb5 = toFile(new TournoiB(new Clef(2, 6, 2, 5)));
 	FileB *fb6 = unionFile(fb4, fb5);
-	FileB *fb7 = unionFile(fb3, fb6);
+
+	FileB *fb9 = toFile(new TournoiB(new Clef(45, 43, 23, 2)));
+	FileB *fb10 = toFile(new TournoiB(new Clef(41, 43, 23, 2)));
+	FileB *fb11 = unionFile(fb9, fb10);
+	FileB *fb12 = unionFile(fb11, fb6);
+
+	FileB *fb7 = unionFile(fb12, fb3);
 	cout << "unionFile" << endl;
 	afficher(fb7);
+	cout << "apres reste" << endl;
+
+	FileB *fb13 = unionFile(toFile(new TournoiB(new Clef(33, 33, 12, 1))),
+			toFile(new TournoiB(new Clef(63, 3, 2, 1))));
+	FileB *fb8 = reste(unionFile(fb7, fb13));
+	afficher(fb8);
+}
+
+void FileBFichier() {
+	vector<Clef*> *vec = lireFichier("cles_alea/jeu_1_nb_cles_10000.txt");
+	FileB* res = new FileB();
+	for (Clef *c : *vec) {
+		FileB *nouv = toFile(new TournoiB(c));
+		res = unionFile(res, nouv);
+	}
+	afficher(res);
+	afficherTaille(res);
 }
 
 int main() {
@@ -323,6 +346,7 @@ int main() {
 	 cout << "UnionTab :" << endl;
 	 complexiteUnionTab();*/
 	//test_FileB();
+	//FileBFichier();
 	main_md5();
 	return 0;
 }
