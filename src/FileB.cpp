@@ -30,16 +30,21 @@ bool estVide(FileB *f) {
 	return f->getFile()->size() == 0;
 }
 
+// Renvoie le tournoi de degre minimal dans la file
 TournoiB *minDeg(FileB *f) {
 	return f->getFile()->back();
 }
 
+// Renvoie la file privee de son tournoi de degre minimal
 FileB *reste(FileB *f) {
 	std::list<TournoiB *> *liste = f->getFile();
 	liste->pop_back();
 	return new FileB(liste);
 }
 
+// Hypothese : le tournoi de degre inferieur au MinDeg de la file
+// Renvoie la file obtenue en ajoutant le tournoi comme
+// tournoi de degre minimal de la file initiale.
 FileB *ajoutMin(TournoiB *t, FileB *f) {
 	FileB * ff = f;
 	ff->getFile()->push_back(t);

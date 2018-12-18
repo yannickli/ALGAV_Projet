@@ -297,9 +297,19 @@ void test_FileB() {
 
 	TournoiB* tb7 = union2Tid(tb3, tb6);
 
-	FileB *fb = toFile(tb7);
-	fb = reste(fb);
-	afficher(fb);
+	afficher(toFile(tb7));
+	cout << "apres decapite" << endl;
+	FileB *fb1 = decapite(tb7);
+	afficher(fb1);
+
+	FileB *fb2 = toFile(new TournoiB(new Clef(3, 6, 2, 5)));
+	FileB *fb3 = unionFile(fb1, fb2);
+	FileB *fb4 = toFile(new TournoiB(new Clef(4, 6, 2, 5)));
+	FileB *fb5 = toFile(new TournoiB(new Clef(2, 6, 2, 5)));
+	FileB *fb6 = unionFile(fb4, fb5);
+	FileB *fb7 = unionFile(fb3, fb6);
+	cout << "unionFile" << endl;
+	afficher(fb7);
 }
 
 int main() {
@@ -312,11 +322,8 @@ int main() {
 	 complexiteUnionArbre();
 	 cout << "UnionTab :" << endl;
 	 complexiteUnionTab();*/
-
-	test_FileB();
-
-//main_md5();
-
+	//test_FileB();
+	main_md5();
 	return 0;
 }
 

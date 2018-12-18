@@ -65,7 +65,7 @@ TournoiB *union2Tid(TournoiB *t1, TournoiB *t2) {
 	}
 	return res;
 }
-
+// Renvoie la file binomiale obtenue en supprimant la racine du tournoi
 FileB * decapite(TournoiB *t) {
 	FileB* res = new FileB(t->getFils());
 	return res;
