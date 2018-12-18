@@ -10,72 +10,39 @@
 
 #include <list>
 #include "Clef.h"
-#include "FileB.h"
+
+class FileB;
 
 class TournoiB {
-private:
 	Clef * racine;
 	std::list<TournoiB*> *fils;
 public:
-	TournoiB() :
-			racine(nullptr) {
-		fils = new std::list<TournoiB*>();
-	}
+	TournoiB();
 
-	TournoiB(Clef * rac) :
-			racine(rac) {
-		fils = new std::list<TournoiB*>();
-	}
+	TournoiB(Clef * rac);
 
-	Clef *getRacine() {
-		return racine;
-	}
+	Clef *getRacine();
 
-	std::list<TournoiB*>* getFils() {
-		return fils;
-	}
+	std::list<TournoiB*>* getFils();
 
-	void setRacine(Clef *c) {
-		racine = c;
-	}
+	void setRacine(Clef *c);
 
-	void setFils(std::list<TournoiB*> *lfils) {
-		fils = lfils;
-	}
+	void setFils(std::list<TournoiB*> *lfils);
 
-	void addFils(TournoiB*t) {
-		fils->push_front(t);
-	}
+	void addFils(TournoiB*t);
 
-	friend bool estVide(TournoiB*b) {
-		if (b->getRacine() == nullptr)
-			return true;
-		return false;
-	}
+	friend bool estVide(TournoiB*b);
 
-	friend int degre(TournoiB*b) {
-		return b->getFils()->size();
-	}
+	friend int degre(TournoiB*b);
 
 	//Union de 2 tournois de meme taille
-	friend TournoiB *union2Tid(TournoiB *t1, TournoiB *t2) {
-		TournoiB * res = new TournoiB();
-		if (t1->getRacine() < t2->getRacine()) {
-			res->setRacine(t1->getRacine());
-			res->setFils(t1->getFils());
-			res->addFils(t2);
-		} else {
-			res->setRacine(t2->getRacine());
-			res->setFils(t2->getFils());
-			res->addFils(t1);
-		}
-		return res;
-	}
+	friend TournoiB *union2Tid(TournoiB *t1, TournoiB *t2);
 
 	friend FileB *decapite(TournoiB *t);
 
 	friend FileB *toFile(TournoiB *t);
 
+	friend void afficher(TournoiB *tb);
 };
 
 #endif /* SRC_TOURNOIB_H_ */

@@ -16,6 +16,7 @@
 #include <cstring>
 #include "FileB.h"
 #include "TournoiB.h"
+#include "md5.h"
 
 using namespace std;
 
@@ -285,6 +286,22 @@ void complexiteUnionTab() {
 	}
 }
 
+void test_FileB() {
+	TournoiB* tb1 = new TournoiB(new Clef(8, 1, 1, 1));
+	TournoiB* tb2 = new TournoiB(new Clef(63, 54, 3, 4));
+	TournoiB* tb3 = union2Tid(tb1, tb2);
+
+	TournoiB* tb4 = new TournoiB(new Clef(77, 5, 3, 6));
+	TournoiB* tb5 = new TournoiB(new Clef(6, 6, 7, 2));
+	TournoiB* tb6 = union2Tid(tb4, tb5);
+
+	TournoiB* tb7 = union2Tid(tb3, tb6);
+
+	FileB *fb = toFile(tb7);
+	fb = reste(fb);
+	afficher(fb);
+}
+
 int main() {
 	//test_structureQ2();
 	/*cout << "ConsIterArbre : " << endl;
@@ -295,6 +312,10 @@ int main() {
 	 complexiteUnionArbre();
 	 cout << "UnionTab :" << endl;
 	 complexiteUnionTab();*/
+
+	test_FileB();
+
+//main_md5();
 
 	return 0;
 }

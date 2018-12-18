@@ -1,9 +1,12 @@
 /*
- * md5.cpp
+ * md5.h
  *
  *  Created on: 11 déc. 2018
  *      Author: yannickli
  */
+
+#ifndef SRC_MD5_H_
+#define SRC_MD5_H_
 
 #include <iostream>
 #include <cmath>
@@ -40,19 +43,24 @@ int my_md5(string message) {
 	int h2 = 0x98BADCFE;
 	int h3 = 0x10325476;
 
-	message.push_back(1);
+	cout << message << endl;
+	message.push_back('1');
+	cout << message << endl;
 	int taille = 448 - (message.size() % 512);
 	if (taille < 0)
 		taille += 512;
 	for (int i = 0; i < taille; i++)
-		message.push_back(0);
-
+		message.push_back('0');
+	cout << message << endl;
+	cout << message.size() << endl;
 	vector<int> vect;
 
 	return 0;
 }
 
-int _main() {
+int main_md5() {
 	my_md5("test");
 	return 0;
 }
+
+#endif /* SRC_MD5_H_ */
