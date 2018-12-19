@@ -7,19 +7,18 @@
 
 #include "ABR.h"
 
-ABR::ABR() :
-		clef(nullptr), filsG(nullptr), filsD(nullptr) {
+using namespace std;
+
+ABR::ABR(string s, ABR*A1, ABR*A2) :
+		etiq(s), filsG(A1), filsD(A2) {
 }
 
-ABR::ABR(Clef*x, ABR*A1, ABR*A2) :
-		clef(x), filsG(A1), filsD(A2) {
+bool estFeuille(ABR*A) {
+	return ((A->filsG) == nullptr && (A->filsD) == nullptr);
 }
 
-bool estArbreVide(ABR*A) {
-	return A->clef == nullptr;
-}
-Clef * racine(ABR*A) {
-	return A->clef;
+std::string getEtiquette(ABR*A) {
+	return A->etiq;
 }
 
 ABR* sousArbreGauche(ABR*A) {
@@ -28,4 +27,11 @@ ABR* sousArbreGauche(ABR*A) {
 
 ABR* sousArbreDroit(ABR*A) {
 	return A->filsD;
+}
+
+ABR* ajout(ABR* A, std::string hash) {
+	if (hash.compare("")){
+
+	}
+
 }

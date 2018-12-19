@@ -8,31 +8,35 @@
 #ifndef SRC_ABR_H_
 #define SRC_ABR_H_
 #include "Clef.h"
+#include <vector>
+#include <cstring>
 
 class ABR {
-	Clef * clef;
+	std::string etiq;
 	ABR * filsG;
 	ABR * filsD;
 public:
-	ABR();
+	ABR(std::string s, ABR*A1, ABR*A2);
 
-	ABR(Clef*x, ABR*A1, ABR*A2);
+	friend bool estFeuille(ABR*A);
 
-	friend bool estArbreVide(ABR*A);
-
-	friend Clef * racine(ABR*A);
+	friend std::string getEtiquette(ABR*A);
 
 	friend ABR* sousArbreGauche(ABR*A);
 
 	friend ABR* sousArbreDroit(ABR*A);
+
+	friend ABR* ajout(ABR* A, std::string hash);
 };
 
-bool estArbreVide(ABR*A);
+bool estFeuille(ABR*A);
 
-Clef * racine(ABR*A);
+std::string getEtiquette(ABR*A);
 
 ABR* sousArbreGauche(ABR*A);
 
 ABR* sousArbreDroit(ABR*A);
+
+ABR* ajout(ABR* A, std::string hash);
 
 #endif /* SRC_ABR_H_ */
