@@ -269,6 +269,11 @@ public:
 
 // Ajoute le noeud n a notre tas
 	void ajout(Noeud *n) {
+		if (racine == nullptr) {
+			racine = n;
+			nbElem++;
+			return;
+		}
 		Noeud *nlibre = DonnePereNoeudVide();
 		if (nlibre->ajout(n) == false) {
 			perror("Probleme dans ajout");
@@ -319,9 +324,6 @@ public:
 
 // constIter naif
 	void consIterNaif(std::vector<Clef*> *tab) {
-		racine = new Noeud(tab->back());
-		nbElem = 1;
-		tab->pop_back();
 		for (Clef * c : *tab) {
 			ajout(new Noeud(c));
 		}

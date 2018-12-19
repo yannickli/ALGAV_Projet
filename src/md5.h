@@ -58,7 +58,7 @@ int my_md5(std::string message) {
 	return 0;
 }
 
-int main_md5() {
+int testMd5() {
 	my_md5("test");
 	std::string s1 = "String De Test Pour Le Projet 32";
 	std::cout << s1.size() << " : " << s1 << std::endl;

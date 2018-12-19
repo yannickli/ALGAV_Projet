@@ -110,4 +110,28 @@ void afficherTaille(FileB*F) {
 	cout << "cpt = " << cpt << endl;
 }
 
+FileB * supprMin(FileB * F) {
+	FileB * res = new FileB();
+	TournoiB* tb = minDeg(F);
+	FileB* fb = reste(F);
+	res = unionFile(fb, decapite(tb));
+	return res;
+}
+
+FileB* ajout(FileB * F, Clef *C) {
+	FileB * res = new FileB();
+	TournoiB *tb = new TournoiB(C);
+	res = unionFile(F, toFile(tb));
+	return res;
+}
+
+FileB* consIter(std::vector<Clef *>* v) {
+	FileB * res = new FileB();
+	for (Clef *c : *v) {
+		FileB *nouv = toFile(new TournoiB(c));
+		res = unionFile(res, nouv);
+	}
+	return res;
+}
+
 #endif /* SRC_FILEB_CPP_ */

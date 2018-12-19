@@ -9,6 +9,8 @@
 #define SRC_FILEB_H_
 
 #include <list>
+#include <vector>
+#include "Clef.h"
 
 class TournoiB;
 
@@ -36,6 +38,14 @@ public:
 	friend void afficher(FileB*F);
 
 	friend void afficherTaille(FileB*F);
+
+	friend FileB * supprMin(FileB * F);
+
+	friend FileB* ajout(FileB * F, Clef *C);
+
+	friend FileB* consIter(std::vector<Clef*> *v);
 };
+
+FileB* consIter(std::vector<Clef*> *v);
 
 #endif /* SRC_FILEB_H_ */
