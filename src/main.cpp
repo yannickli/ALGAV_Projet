@@ -17,6 +17,7 @@
 #include "FileB.h"
 #include "TournoiB.h"
 #include "md5.h"
+#include "ABR.h"
 
 using namespace std;
 
@@ -116,7 +117,7 @@ vector<Clef*> *lireFichier(string file) {
 // Ce test permet de valider nos structures de la question 2
 int testStructureTas() {
 	TasMinArbre *t1 = new TasMinArbre();
-	t1->consIter(lireFichier("cles_alea/jeu_1_nb_cles_50000.txt"));
+	t1->consIterArbre(lireFichier("cles_alea/jeu_1_nb_cles_50000.txt"));
 	t1->supprMin();
 	t1->supprMin();
 	t1->ajout(new Noeud(new Clef(3999999999, 23, 0, 0)));
@@ -125,7 +126,7 @@ int testStructureTas() {
 	cout << t1->tester() << endl;
 
 	TasMinArbre *t2 = new TasMinArbre();
-	t2->consIter(lireFichier("cles_alea/jeu_2_nb_cles_10000.txt"));
+	t2->consIterArbre(lireFichier("cles_alea/jeu_2_nb_cles_10000.txt"));
 	t2->supprMin();
 	t2->supprMin();
 	t2->ajout(new Noeud(new Clef(3999999999, 4, 0, 1)));
@@ -142,7 +143,7 @@ int testStructureTas() {
 	cout << t3->tester() << endl;
 
 	TasMinTab *t4 = new TasMinTab();
-	t4->consIter(lireFichier("cles_alea/jeu_2_nb_cles_1000.txt"));
+	t4->consIterTab(lireFichier("cles_alea/jeu_2_nb_cles_1000.txt"));
 	t4->supprMin();
 	t4->supprMin();
 	t4->ajout((new Clef(3999999999, 0, 0, 0)));
@@ -151,7 +152,7 @@ int testStructureTas() {
 	cout << t4->tester() << endl;
 
 	TasMinTab *t5 = new TasMinTab();
-	t5->consIter(lireFichier("cles_alea/jeu_2_nb_cles_10000.txt"));
+	t5->consIterTab(lireFichier("cles_alea/jeu_2_nb_cles_10000.txt"));
 	//cout << "Erreur incomming" << endl;
 	t5->supprMin();
 	//cout << "Pas d'erreur" << endl;
@@ -169,6 +170,17 @@ int testStructureTas() {
 	//t6->afficher();
 	cout << t6->tester() << endl;
 
+	cout << endl << "MES TAS" << endl;
+
+	TasMinTab *res = new TasMinTab();
+	res->consIterTab(lireFichier("cles_alea/jeu_1_nb_cles_100.txt"));
+	//res->afficher();
+	res->tester();
+	TasMinArbre *res2 = new TasMinArbre();
+	res2->consIterArbre(lireFichier("cles_alea/jeu_1_nb_cles_100.txt"));
+	//res2->afficher();
+	res2->tester();
+
 	return 0;
 }
 
@@ -183,7 +195,7 @@ void complexiteConsIterArbre() {
 					+ ".txt";
 			vector<Clef*> *tab = lireFichier(s);
 			TasMinArbre * tas = new TasMinArbre();
-			tas->consIter(tab);
+			tas->consIterArbre(tab);
 			if (!tas->tester()) {
 				perror("Probleme ConsIter Arbre");
 				exit(100);
@@ -205,7 +217,7 @@ void complexiteConsIterTab() {
 					+ ".txt";
 			vector<Clef*> *tab = lireFichier(s);
 			TasMinTab * tas = new TasMinTab();
-			tas->consIter(tab);
+			tas->consIterTab(tab);
 			if (!tas->tester()) {
 				perror("Probleme ConsIter Tab");
 				exit(101);
@@ -222,15 +234,20 @@ void complexiteUnionArbre() {
 
 	for (string s1 : nom) {
 		TasMinArbre *tas1 = new TasMinArbre();
-		tas1->consIter(lireFichier("cles_alea/jeu_1_nb_cles_" + s1 + ".txt"));
+		tas1->consIterArbre(
+				lireFichier("cles_alea/jeu_1_nb_cles_" + s1 + ".txt"));
 		TasMinArbre *tas2 = new TasMinArbre();
-		tas2->consIter(lireFichier("cles_alea/jeu_2_nb_cles_" + s1 + ".txt"));
+		tas2->consIterArbre(
+				lireFichier("cles_alea/jeu_2_nb_cles_" + s1 + ".txt"));
 		TasMinArbre *tas3 = new TasMinArbre();
-		tas3->consIter(lireFichier("cles_alea/jeu_3_nb_cles_" + s1 + ".txt"));
+		tas3->consIterArbre(
+				lireFichier("cles_alea/jeu_3_nb_cles_" + s1 + ".txt"));
 		TasMinArbre *tas4 = new TasMinArbre();
-		tas4->consIter(lireFichier("cles_alea/jeu_4_nb_cles_" + s1 + ".txt"));
+		tas4->consIterArbre(
+				lireFichier("cles_alea/jeu_4_nb_cles_" + s1 + ".txt"));
 		TasMinArbre *tas5 = new TasMinArbre();
-		tas5->consIter(lireFichier("cles_alea/jeu_5_nb_cles_" + s1 + ".txt"));
+		tas5->consIterArbre(
+				lireFichier("cles_alea/jeu_5_nb_cles_" + s1 + ".txt"));
 		clock_t tStart = clock();
 
 		TasMinArbre *res = union2Arbre(tas1, tas2);
@@ -253,15 +270,20 @@ void complexiteUnionTab() {
 
 	for (string s1 : nom) {
 		TasMinTab *tas1 = new TasMinTab();
-		tas1->consIter(lireFichier("cles_alea/jeu_1_nb_cles_" + s1 + ".txt"));
+		tas1->consIterTab(
+				lireFichier("cles_alea/jeu_1_nb_cles_" + s1 + ".txt"));
 		TasMinTab *tas2 = new TasMinTab();
-		tas2->consIter(lireFichier("cles_alea/jeu_2_nb_cles_" + s1 + ".txt"));
+		tas2->consIterTab(
+				lireFichier("cles_alea/jeu_2_nb_cles_" + s1 + ".txt"));
 		TasMinTab *tas3 = new TasMinTab();
-		tas3->consIter(lireFichier("cles_alea/jeu_3_nb_cles_" + s1 + ".txt"));
+		tas3->consIterTab(
+				lireFichier("cles_alea/jeu_3_nb_cles_" + s1 + ".txt"));
 		TasMinTab *tas4 = new TasMinTab();
-		tas4->consIter(lireFichier("cles_alea/jeu_4_nb_cles_" + s1 + ".txt"));
+		tas4->consIterTab(
+				lireFichier("cles_alea/jeu_4_nb_cles_" + s1 + ".txt"));
 		TasMinTab *tas5 = new TasMinTab();
-		tas5->consIter(lireFichier("cles_alea/jeu_5_nb_cles_" + s1 + ".txt"));
+		tas5->consIterTab(
+				lireFichier("cles_alea/jeu_5_nb_cles_" + s1 + ".txt"));
 		clock_t tStart = clock();
 
 		TasMinTab *res = union2Tab(*tas1, *tas2);
@@ -291,7 +313,7 @@ void complexiteSupprMinArbre() {
 			vector<Clef*> *tab = lireFichier(s);
 
 			TasMinArbre * tas = new TasMinArbre();
-			tas->consIter(tab);
+			tas->consIterArbre(tab);
 			if (!tas->tester()) {
 				perror("Probleme ConsIter Arbre");
 				exit(100);
@@ -321,7 +343,7 @@ void complexiteSupprMinTab() {
 			vector<Clef*> *tab = lireFichier(s);
 
 			TasMinTab * tas = new TasMinTab();
-			tas->consIter(tab);
+			tas->consIterTab(tab);
 			if (!tas->tester()) {
 				perror("Probleme ConsIter Arbre");
 				exit(100);
@@ -465,7 +487,7 @@ void complexiteConsIterFileB() {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
 			vector<Clef*> *vec = lireFichier(s);
-			FileB* res = consIter(vec);
+			FileB * fb = consIterFileB(vec);
 		}
 		cout << "Taille : " << s1 << " ; Temps : "
 				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) / 5 << endl;
@@ -477,15 +499,15 @@ void complexiteUnionFileB() {
 			"50000" };
 
 	for (string s1 : nom) {
-		FileB *fb1 = consIter(
+		FileB *fb1 = consIterFileB(
 				lireFichier("cles_alea/jeu_1_nb_cles_" + s1 + ".txt"));
-		FileB *fb2 = consIter(
+		FileB *fb2 = consIterFileB(
 				lireFichier("cles_alea/jeu_2_nb_cles_" + s1 + ".txt"));
-		FileB *fb3 = consIter(
+		FileB *fb3 = consIterFileB(
 				lireFichier("cles_alea/jeu_3_nb_cles_" + s1 + ".txt"));
-		FileB *fb4 = consIter(
+		FileB *fb4 = consIterFileB(
 				lireFichier("cles_alea/jeu_4_nb_cles_" + s1 + ".txt"));
-		FileB *fb5 = consIter(
+		FileB *fb5 = consIterFileB(
 				lireFichier("cles_alea/jeu_5_nb_cles_" + s1 + ".txt"));
 		clock_t tStart = clock();
 
@@ -511,7 +533,7 @@ void complexiteSupprMinFileB() {
 					+ ".txt";
 			vector<Clef*> *vec = lireFichier(s);
 
-			FileB* fb = consIter(vec);
+			FileB* fb = consIterFileB(vec);
 
 			tStart = clock();
 			for (int i = 0; i < stoi(s1); i++) {
@@ -559,12 +581,39 @@ void testComplexiteFileB() {
 	complexiteAjoutFileB();
 }
 
+void testStructureABR() {
+	ABR * res = consIterABR(lireFichier("cles_alea/jeu_1_nb_cles_100.txt"));
+	afficher(res);
+}
+
+void testComplexiteABR() {
+	ABR * res = consIterABR(lireFichier("cles_alea/jeu_1_nb_cles_100.txt"));
+	afficher(res);
+}
+
 int main() {
-//testStructureTas();
+	//testStructureTas();
 	//testComplexiteTas();
 	//testStructureFileB();
 	//testComplexiteFileB();
-	testMd5();
+
+	/*TasMinTab *res = new TasMinTab();
+	 res->consIterTab(lireFichier("cles_alea/jeu_1_nb_cles_1000.txt"));
+	 res->afficher();
+	 res->tester();
+	 TasMinArbre *res2 = new TasMinArbre();
+	 res2->consIterArbre(lireFichier("cles_alea/jeu_1_nb_cles_1000.txt"));
+	 res2->afficher();
+	 res2->tester();
+	 string s = "cles_alea/jeu_1_nb_cles_1000.txt";
+	 vector<Clef*> *vec = lireFichier(s);
+	 FileB *fb = consIterFileB(vec);
+	 afficher(fb);
+	 afficherTaille(fb);*/
+
+	//testMd5();
+	testStructureABR();
+	//testComplexiteABR();
 	return 0;
 }
 

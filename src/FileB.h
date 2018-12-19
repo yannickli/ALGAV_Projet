@@ -43,7 +43,7 @@ public:
 
 	friend FileB* ajout(FileB * F, Clef *C);
 
-	friend FileB* consIter(std::vector<Clef*> *v);
+	friend FileB* consIterFileB(std::vector<Clef*> *v);
 };
 
 bool estVide(FileB *f);
@@ -66,6 +66,6 @@ FileB * supprMin(FileB * F);
 
 FileB* ajout(FileB * F, Clef *C);
 
-FileB* consIter(std::vector<Clef*> *v);
+FileB* consIterFileB(std::vector<Clef*> *v);
 
 #endif /* SRC_FILEB_H_ */

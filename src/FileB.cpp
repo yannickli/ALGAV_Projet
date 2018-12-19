@@ -125,7 +125,7 @@ FileB* ajout(FileB * F, Clef *C) {
 	return res;
 }
 
-FileB* consIter(std::vector<Clef *>* v) {
+FileB* consIterFileB(std::vector<Clef *>* v) {
 	FileB * res = new FileB();
 	for (Clef *c : *v) {
 		FileB *nouv = toFile(new TournoiB(c));

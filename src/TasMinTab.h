@@ -42,19 +42,19 @@ public:
 	}
 	void redescendre(int i) {
 		if (filsD(i) <= nbElem - 1) {
-			if (tab[filsG(i)] < tab[filsD(i)]) {
-				if (tab[filsG(i)] < tab[i]) {
+			if (*(tab[filsG(i)]) < *(tab[filsD(i)])) {
+				if (*(tab[filsG(i)]) < *(tab[i])) {
 					swap(filsG(i), i);
 					redescendre(filsG(i));
 				}
 			} else {
-				if (tab[filsD(i)] < tab[i]) {
+				if (*(tab[filsD(i)]) < *(tab[i])) {
 					swap(filsD(i), i);
 					redescendre(filsD(i));
 				}
 			}
 		} else if (filsG(i) <= nbElem - 1) {
-			if (tab[filsG(i)] < tab[i]) {
+			if (*(tab[filsG(i)]) < *(tab[i])) {
 				swap(filsG(i), i);
 				redescendre(filsG(i));
 			}
@@ -72,13 +72,13 @@ public:
 	}
 	void remonter(int i) {
 		if (i > 0) {
-			if (tab[i] < tab[pere(i)]) {
+			if (*(tab[i]) < *(tab[pere(i)])) {
 				swap(i, pere(i));
 				remonter(pere(i));
 			}
 		}
 	}
-	void consIter(std::vector<Clef*> *elm) {
+	void consIterTab(std::vector<Clef*> *elm) {
 		for (Clef *it : *elm) {
 			tab.push_back(it);
 			nbElem++;
@@ -93,12 +93,12 @@ public:
 		std::vector<Clef*> v2 = t2.tab;
 		TasMinTab * res = new TasMinTab();
 		v1.insert(v1.end(), v2.begin(), v2.end());
-		res->consIter(&v1);
+		res->consIterTab(&v1);
 		return res;
 	}
 	void afficher() {
-		for (Clef *c : tab)
-			c->afficher();
+		for (int i = 0; i < nbElem; i++)
+			tab[i]->afficher();
 		std::cout << "Il y a " << nbElem << " cles." << std::endl;
 	}
 	bool testN(int i, int *nb) {
@@ -110,7 +110,7 @@ public:
 				/*std::cout << "Je suis : " << tab[i] << "; Mon fils gauche : "
 				 << tab[fg] << "; Mon fils droit : " << tab[fd]
 				 << std::endl;*/
-				if (tab[i] < tab[fg] && tab[i] < tab[fd]) {
+				if (*(tab[i]) < *(tab[fg]) && *(tab[i]) < *(tab[fd])) {
 					if (testN(fg, nb) && testN(fd, nb)) {
 						return true;
 					} else {
@@ -120,7 +120,7 @@ public:
 					return false;
 				}
 			} else {
-				if (tab[i] < tab[fg]) {
+				if (*(tab[i]) < *(tab[fg])) {
 					if (testN(fg, nb)) {
 						return true;
 					} else {
@@ -140,9 +140,13 @@ public:
 	int tester() {
 		int cpt = 0;
 		if (testN(0, &cpt)) {
-			if (cpt != nbElem)
+			if (cpt != nbElem) {
+				std::cout << "pb ici" << std::endl;
 				std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
 						<< std::endl;
+				return 0;
+			}
+			//std::cout << "Structure OK" << std::endl;
 			return cpt == nbElem;
 		} else {
 			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."

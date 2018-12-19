@@ -163,11 +163,12 @@ public:
 
 	void tamiser_racine() {
 		if (racine->getFilsG()
-				&& (racine->getClef() > racine->getFilsG()->getClef())) {
+				&& (*(racine->getClef()) > *(racine->getFilsG()->getClef()))) {
 			if (racine->getFilsD()
-					&& racine->getClef() > racine->getFilsD()->getClef()) {
-				if (racine->getFilsG()->getClef()
-						< racine->getFilsD()->getClef()) {
+					&& *(racine->getClef())
+							> *(racine->getFilsD()->getClef())) {
+				if (*(racine->getFilsG()->getClef())
+						< *(racine->getFilsD()->getClef())) {
 					racine = echangeAvecFilsG(racine);
 					tamiser_bas(racine->filsG);
 				} else {
@@ -180,7 +181,8 @@ public:
 			}
 		} else {
 			if (racine->getFilsD()
-					&& racine->getClef() > racine->getFilsD()->getClef()) {
+					&& *(racine->getClef())
+							> *(racine->getFilsD()->getClef())) {
 				racine = echangeAvecFilsD(racine);
 				tamiser_bas(racine->filsD);
 			}
@@ -192,11 +194,12 @@ public:
 	void tamiser_bas(Noeud *origine) {
 		Noeud * retour;
 		if (origine->getFilsG()
-				&& (origine->getClef() > origine->getFilsG()->getClef())) {
+				&& (*(origine->getClef()) > *(origine->getFilsG()->getClef()))) {
 			if (origine->getFilsD()
-					&& (origine->getClef() > origine->getFilsD()->getClef())) {
-				if (origine->getFilsG()->getClef()
-						< origine->getFilsD()->getClef()) {
+					&& (*(origine->getClef())
+							> *(origine->getFilsD()->getClef()))) {
+				if (*(origine->getFilsG()->getClef())
+						< *(origine->getFilsD()->getClef())) {
 					retour = echangeAvecFilsG(origine);
 					tamiser_bas(retour->filsG);
 				} else {
@@ -209,7 +212,8 @@ public:
 			}
 		} else {
 			if (origine->getFilsD()
-					&& origine->getClef() > origine->getFilsD()->getClef()) {
+					&& *(origine->getClef())
+							> *(origine->getFilsD()->getClef())) {
 				retour = echangeAvecFilsD(origine);
 				tamiser_bas(retour->filsD);
 			}
@@ -248,7 +252,7 @@ public:
 // Utilise pour l'ajout
 	void tamiser_haut(Noeud *origine) {
 		Noeud * retour = racine;
-		if (origine->pere && origine->pere->clef > origine->clef) {
+		if (origine->pere && *(origine->pere->clef) > *(origine->clef)) {
 			if (origine->pere->estMonFilsGauche(origine)) {
 				retour = echangeAvecFilsG(origine->pere);
 				tamiser_haut(origine);
@@ -286,10 +290,11 @@ public:
 // Affichage en parcours prefixe
 	void afficher() {
 		racine->afficher();
+		std::cout << "Il y a " << nbElem << " cles." << std::endl;
 	}
 
 // Permet de construire un tas min a partir de tab
-	void consIter(std::vector<Clef*> *tab) {
+	void consIterArbre(std::vector<Clef*> *tab) {
 		std::vector<Noeud *> tmp = *new std::vector<Noeud *>();
 		for (Clef *c : *tab) {
 			tmp.push_back(new Noeud(c));
@@ -351,7 +356,7 @@ public:
 		std::vector<Clef*> *v2 = t2->toVector();
 		TasMinArbre * res = new TasMinArbre();
 		v1->insert(v1->end(), v2->begin(), v2->end());
-		res->consIter(v1);
+		res->consIterArbre(v1);
 		return res;
 	}
 
@@ -362,7 +367,7 @@ public:
 		(*nb)++;
 		if (fg) {
 			if (fd) {
-				if (n->clef < fg->clef && n->clef < fd->clef) {
+				if (*(n->clef) < *(fg->clef) && *(n->clef) < *(fd->clef)) {
 					if (testN(fg, nb) && testN(fd, nb)) {
 						return true;
 					} else {
@@ -372,7 +377,7 @@ public:
 					return false;
 				}
 			} else {
-				if (n->clef < fg->clef) {
+				if (*(n->clef) < *(fg->clef)) {
 					if (testN(fg, nb)) {
 						return true;
 					} else {
@@ -392,9 +397,12 @@ public:
 	int tester() {
 		int cpt = 0;
 		if (testN(racine, &cpt)) {
-			if (cpt != nbElem)
+			if (cpt != nbElem) {
 				std::cout << "On a teste " << cpt << "/" << nbElem << " cles."
 						<< std::endl;
+				return 0;
+			}
+			//std::cout << "Structure OK" << std::endl;
 			return cpt == nbElem;
 		} else {
 			std::cout << "On a teste " << cpt << "/" << nbElem << " cles."

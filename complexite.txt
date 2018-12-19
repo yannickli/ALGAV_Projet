@@ -1,0 +1,72 @@
+ConsIterArbre (moyenne des 5 jeux): 
+Taille : 100 ; Temps : 0.000341
+Taille : 200 ; Temps : 0.000656
+Taille : 500 ; Temps : 0.0016242
+Taille : 1000 ; Temps : 0.0030248
+Taille : 5000 ; Temps : 0.0185172
+Taille : 10000 ; Temps : 0.0407816
+Taille : 20000 ; Temps : 0.0772774
+Taille : 50000 ; Temps : 0.168689
+ConstIterTab (moyenne des 5 jeux):
+Taille : 100 ; Temps : 0.0003492
+Taille : 200 ; Temps : 0.0005792
+Taille : 500 ; Temps : 0.0012318
+Taille : 1000 ; Temps : 0.0022884
+Taille : 5000 ; Temps : 0.010591
+Taille : 10000 ; Temps : 0.0215926
+Taille : 20000 ; Temps : 0.0461306
+Taille : 50000 ; Temps : 0.113848
+UnionArbre (4 union des 5 jeux):
+Taille : 100 ; Temps : 0.001225
+Taille : 200 ; Temps : 0.002834
+Taille : 500 ; Temps : 0.008154
+Taille : 1000 ; Temps : 0.016551
+Taille : 5000 ; Temps : 0.098721
+Taille : 10000 ; Temps : 0.20442
+Taille : 20000 ; Temps : 0.417399
+Taille : 50000 ; Temps : 1.07544
+UnionTab (4 union des 5 jeux):
+Taille : 100 ; Temps : 0.00011
+Taille : 200 ; Temps : 0.000202
+Taille : 500 ; Temps : 0.000419
+Taille : 1000 ; Temps : 0.000853
+Taille : 5000 ; Temps : 0.006179
+Taille : 10000 ; Temps : 0.009189
+Taille : 20000 ; Temps : 0.017487
+Taille : 50000 ; Temps : 0.047547
+SupprMinArbre (1 operation): 
+Taille : 100 ; Temps : 1.416e-06
+Taille : 200 ; Temps : 3.007e-06
+Taille : 500 ; Temps : 4.6634e-06
+Taille : 1000 ; Temps : 6.5164e-06
+Taille : 5000 ; Temps : 8.84772e-06
+Taille : 10000 ; Temps : 1.13494e-05
+Taille : 20000 ; Temps : 1.40513e-05
+Taille : 50000 ; Temps : 1.69656e-05
+SupprMinTab (1 operation):
+Taille : 100 ; Temps : 2.82e-07
+Taille : 200 ; Temps : 6.13e-07
+Taille : 500 ; Temps : 9.782e-07
+Taille : 1000 ; Temps : 1.378e-06
+Taille : 5000 ; Temps : 1.9026e-06
+Taille : 10000 ; Temps : 2.4839e-06
+Taille : 20000 ; Temps : 3.13294e-06
+Taille : 50000 ; Temps : 3.89372e-06
+AjoutArbre (1 operation): 
+Taille : 100 ; Temps : 1.168e-06
+Taille : 200 ; Temps : 2.401e-06
+Taille : 500 ; Temps : 3.6794e-06
+Taille : 1000 ; Temps : 5.1528e-06
+Taille : 5000 ; Temps : 6.78672e-06
+Taille : 10000 ; Temps : 8.45984e-06
+Taille : 20000 ; Temps : 1.02007e-05
+Taille : 50000 ; Temps : 1.20318e-05
+AjoutTab (1 operation):
+Taille : 100 ; Temps : 1.32e-07
+Taille : 200 ; Temps : 2.47e-07
+Taille : 500 ; Temps : 3.514e-07
+Taille : 1000 ; Temps : 4.448e-07
+Taille : 5000 ; Temps : 5.4144e-07
+Taille : 10000 ; Temps : 6.3554e-07
+Taille : 20000 ; Temps : 7.3201e-07
+Taille : 50000 ; Temps : 8.26542e-07
