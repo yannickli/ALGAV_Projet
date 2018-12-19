@@ -46,6 +46,26 @@ public:
 	friend FileB* consIter(std::vector<Clef*> *v);
 };
 
+bool estVide(FileB *f);
+
+TournoiB *minDeg(FileB *f);
+
+FileB *reste(FileB *f);
+
+FileB *ajoutMin(TournoiB *t, FileB *f);
+
+FileB * unionFile(FileB * F1, FileB * F2);
+
+FileB * uFret(FileB *F1, FileB *F2, TournoiB *T);
+
+void afficher(FileB*F);
+
+void afficherTaille(FileB*F);
+
+FileB * supprMin(FileB * F);
+
+FileB* ajout(FileB * F, Clef *C);
+
 FileB* consIter(std::vector<Clef*> *v);
 
 #endif /* SRC_FILEB_H_ */

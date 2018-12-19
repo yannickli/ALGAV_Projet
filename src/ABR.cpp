@@ -7,27 +7,25 @@
 
 #include "ABR.h"
 
-ABR::ABR() {
-
+ABR::ABR() :
+		clef(nullptr), filsG(nullptr), filsD(nullptr) {
 }
 
-ABR::ABR(Clef*x, ABR*A1, ABR*A2) {
-
+ABR::ABR(Clef*x, ABR*A1, ABR*A2) :
+		clef(x), filsG(A1), filsD(A2) {
 }
 
-friend bool estArbreVide(ABR*A) {
-	return false;
+bool estArbreVide(ABR*A) {
+	return A->clef == nullptr;
 }
-friend Clef * racine(ABR*A) {
-	Clef * res = new Clef();
-
-	return res;
+Clef * racine(ABR*A) {
+	return A->clef;
 }
 
-friend ABR* sousArbreGauche(ABR*A) {
+ABR* sousArbreGauche(ABR*A) {
 	return A->filsG;
 }
 
-friend ABR* sousArbreDroit(ABR*A) {
+ABR* sousArbreDroit(ABR*A) {
 	return A->filsD;
 }

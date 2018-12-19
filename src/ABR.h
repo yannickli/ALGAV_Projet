@@ -27,4 +27,12 @@ public:
 	friend ABR* sousArbreDroit(ABR*A);
 };
 
+bool estArbreVide(ABR*A);
+
+Clef * racine(ABR*A);
+
+ABR* sousArbreGauche(ABR*A);
+
+ABR* sousArbreDroit(ABR*A);
+
 #endif /* SRC_ABR_H_ */

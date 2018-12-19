@@ -563,8 +563,8 @@ int main() {
 //testStructureTas();
 	//testComplexiteTas();
 	//testStructureFileB();
-	testComplexiteFileB();
-	//testMd5();
+	//testComplexiteFileB();
+	testMd5();
 	return 0;
 }
 

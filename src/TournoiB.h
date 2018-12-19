@@ -45,4 +45,17 @@ public:
 	friend void afficher(TournoiB *tb);
 };
 
+bool estVide(TournoiB*b);
+
+int degre(TournoiB*b);
+
+//Union de 2 tournois de meme taille
+TournoiB *union2Tid(TournoiB *t1, TournoiB *t2);
+
+FileB *decapite(TournoiB *t);
+
+FileB *toFile(TournoiB *t);
+
+void afficher(TournoiB *tb);
+
 #endif /* SRC_TOURNOIB_H_ */

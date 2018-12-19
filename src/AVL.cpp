@@ -15,18 +15,34 @@ AVL::AVL(ABR* A) {
 
 }
 
-friend int hauteur(AVL*A) {
+void rotationD() {
+
+}
+
+void rotationG() {
+
+}
+
+void rotationDG() {
+
+}
+
+void rotationGD() {
+
+}
+
+int hauteur(AVL*A) {
 
 	return 0;
 }
 
-friend ABR * equilibrage(AVL*A) {
+ABR * equilibrage(AVL*A) {
 	ABR * res = new ABR();
 
 	return res;
 }
 
-friend ABR * avl_Ajout(Clef *x, ABR *A) {
+ABR * avl_Ajout(Clef *x, ABR *A) {
 	ABR * res = new ABR();
 
 	return res;
