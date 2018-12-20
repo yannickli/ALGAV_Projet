@@ -44,6 +44,7 @@ string md5(string message) {
 	while (resTaille % 512 != 448)
 		resTaille++;
 	resTaille /= 8;
+	int lim = resTaille / 64;
 	res = (unsigned char*) calloc(resTaille + 8, 1);
 	memcpy(res, message.c_str(), message.length());
 
@@ -54,10 +55,9 @@ string md5(string message) {
 
 	//ajouter la taille du message initial(avant le padding) codée en 64-bit little-endian au message
 	memcpy(res + resTaille, &messagetaillebit, 4);
-
 	//Découpage en blocs de 512 bits :
 	int i;
-	for (i = 0; i <= resTaille / 64; i++) {
+	for (i = 0; i <= lim; i++) {
 		//subdiviser en 16 mots de 32 bits en little-endian w[i], 0 ≤ i ≤ 15
 		unsigned int *w = (unsigned int *) (res + i * 64);
 

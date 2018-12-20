@@ -13,13 +13,14 @@ def ConsIter():
     ConsIterArbre = [0.0005346,0.0010368,0.00232,0.004548,0.024442,0.0476214,0.0921938,0.218753]
     ConsIterTab = [0.0003962,0.000684,0.0016686,0.0033824,0.0169422,0.034126,0.0674012,0.16818]
     ConsIterFileB = [0.0005526,0.0010328,0.0024862,0.0050138,0.0255936,0.0514422,0.099343,0.248033]
-    
+
     plt.xlabel("Taille instance")
     plt.ylabel("Temps en s")
     plt.title('Complexite ConsIter')
     plt.plot(x, ConsIterArbre,'*',linestyle='-',label='ConsIterArbre')
     plt.plot(x, ConsIterTab,'^',linestyle='-',label='ConsIterTab')
     plt.plot(x, ConsIterFileB,'+',linestyle='-',label='ConsIterFileB')
+    plt.legend()
     plt.show()
     
 ConsIter()

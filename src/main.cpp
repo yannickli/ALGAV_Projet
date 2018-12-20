@@ -599,19 +599,26 @@ vector<string> *lireFichierShakespeare(string file) {
 
 void testStructureABR() {
 	list<string> *occurences = new list<string>();
-	ABR * res = consIterABR(lireFichierShakespeare("Shakespeare/1henryiv.txt"),
+	ABR * res = consIterABR(lireFichierShakespeare("Shakespeare/toto"),
 			occurences);
 	//afficher(res);
 	cout << "Liste des mots : " << endl;
 	for (string s : *occurences)
 		cout << s << endl;
+	cout << "Nb mots : " << occurences->size() << endl;
 }
 
 int main() {
-//testStructureTas();
-//testComplexiteTas();
-//testStructureFileB();
-//testComplexiteFileB();
+	/*FileB *fb = consIterFileB(lireFichier("cles_alea/jeu_1_nb_cles_10000.txt"));
+	for(TournoiB * t:*(fb->getFile())){
+		cout << degre(t)<<endl;
+	}*/
+
+
+	//testStructureTas();
+	//testComplexiteTas();
+	//testStructureFileB();
+	//testComplexiteFileB();
 
 	/*TasMinTab *res = new TasMinTab();
 	 res->consIterTab(lireFichier("cles_alea/jeu_1_nb_cles_1000.txt"));
@@ -627,7 +634,7 @@ int main() {
 	 afficher(fb);
 	 afficherTaille(fb);*/
 
-//testMD5();
+//	testMD5();
 	testStructureABR();
 	return 0;
 }
