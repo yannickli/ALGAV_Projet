@@ -16,7 +16,6 @@
 #include <cstring>
 #include "FileB.h"
 #include "TournoiB.h"
-#include "md5.h"
 #include "ABR.h"
 
 using namespace std;
@@ -581,21 +580,38 @@ void testComplexiteFileB() {
 	complexiteAjoutFileB();
 }
 
-void testStructureABR() {
-	ABR * res = consIterABR(lireFichier("cles_alea/jeu_1_nb_cles_100.txt"));
-	afficher(res);
+vector<string> *lireFichierShakespeare(string file) {
+	ifstream fichier(file, ios::in);
+	if (fichier) {
+		string ligne;
+		vector<string> *res = new vector<string>();
+		while (getline(fichier, ligne)) {
+			res->push_back(ligne);
+		}
+		fichier.close();
+		return res;
+	} else {
+		perror("Erreur de lecture Shakespeare");
+		exit(5);
+	}
+	return nullptr;
 }
 
-void testComplexiteABR() {
-	ABR * res = consIterABR(lireFichier("cles_alea/jeu_1_nb_cles_100.txt"));
-	afficher(res);
+void testStructureABR() {
+	list<string> *occurences = new list<string>();
+	ABR * res = consIterABR(lireFichierShakespeare("Shakespeare/1henryiv.txt"),
+			occurences);
+	//afficher(res);
+	cout << "Liste des mots : " << endl;
+	for (string s : *occurences)
+		cout << s << endl;
 }
 
 int main() {
-	//testStructureTas();
-	//testComplexiteTas();
-	//testStructureFileB();
-	//testComplexiteFileB();
+//testStructureTas();
+//testComplexiteTas();
+//testStructureFileB();
+//testComplexiteFileB();
 
 	/*TasMinTab *res = new TasMinTab();
 	 res->consIterTab(lireFichier("cles_alea/jeu_1_nb_cles_1000.txt"));
@@ -611,9 +627,8 @@ int main() {
 	 afficher(fb);
 	 afficherTaille(fb);*/
 
-	//testMd5();
+//testMD5();
 	testStructureABR();
-	//testComplexiteABR();
 	return 0;
 }
 

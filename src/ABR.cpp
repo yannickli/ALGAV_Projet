@@ -6,6 +6,7 @@
  */
 
 #include "ABR.h"
+#include "md5.h"
 
 using namespace std;
 
@@ -60,17 +61,52 @@ void ajout(ABR* A, std::string hash) {
 	}
 }
 
+void ajout(ABR* A, std::string hash, string s, list<string>*l) {
+	if (hash.compare(A->etiq) < 0) {
+		if (getSousArbreGauche(A)) {
+			ajout(getSousArbreGauche(A), hash, s, l);
+		} else {
+			setSousArbreGauche(A, hash);
+			l->push_back(s);
+		}
+		return;
+	}
+	if (hash.compare(A->etiq) > 0) {
+		if (getSousArbreDroit(A)) {
+			ajout(getSousArbreDroit(A), hash, s, l);
+		} else {
+			setSousArbreDroit(A, hash);
+			l->push_back(s);
+		}
+		return;
+	}
+}
+
 ABR* consIterABR(vector<Clef *>* vec) {
 	ABR * res = new ABR(
-			to_string(vec->back()->getI1()) + "."
-					+ to_string(vec->back()->getI2()) + "."
-					+ to_string(vec->back()->getI3()) + "."
-					+ to_string(vec->back()->getI4()), nullptr, nullptr);
+			md5(
+					to_string(vec->back()->getI1()) + "."
+							+ to_string(vec->back()->getI2()) + "."
+							+ to_string(vec->back()->getI3()) + "."
+							+ to_string(vec->back()->getI4())), nullptr,
+			nullptr);
 	vec->pop_back();
 	for (Clef* c : *vec) {
 		ajout(res,
-				to_string(c->getI1()) + "." + to_string(c->getI2()) + "."
-						+ to_string(c->getI3()) + "." + to_string(c->getI4()));
+				md5(
+						to_string(c->getI1()) + "." + to_string(c->getI2())
+								+ "." + to_string(c->getI3()) + "."
+								+ to_string(c->getI4())));
+	}
+	return res;
+}
+
+ABR* consIterABR(vector<string>* vec, list<string> *l) {
+	//reverse(begin(vec), end(vec));
+	ABR * res = new ABR(md5(vec->front()), nullptr, nullptr);
+	l->push_back(vec->front());
+	for (string s : *vec) {
+		ajout(res, md5(s), s, l);
 	}
 	return res;
 }
@@ -81,4 +117,10 @@ void afficher(ABR *A) {
 	afficher(A->filsG);
 	cout << A->etiq << endl;
 	afficher(A->filsD);
+}
+
+int testMD5() {
+	string message = "Ceci est un test";
+	cout << message << endl << md5(message) << endl;
+	return 0;
 }

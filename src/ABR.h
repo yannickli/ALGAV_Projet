@@ -10,6 +10,10 @@
 #include "Clef.h"
 #include <vector>
 #include <cstring>
+#include <list>
+#include <algorithm>
+#include <iterator>
+#include <iostream>
 
 class ABR {
 	std::string etiq;
@@ -34,7 +38,13 @@ public:
 
 	friend void ajout(ABR* A, std::string hash);
 
+	friend void ajout(ABR* A, std::string hash, std::string s,
+			std::list<std::string>*l);
+
 	friend ABR* consIterABR(std::vector<Clef *>* vec);
+
+	friend ABR* consIterABR(std::vector<std::string>* vec,
+			std::list<std::string> *l);
 
 	friend void afficher(ABR *A);
 };
@@ -55,8 +65,14 @@ void setSousArbreDroit(ABR*A, std::string s);
 
 void ajout(ABR* A, std::string hash);
 
+void ajout(ABR* A, std::string hash, std::string s, std::list<std::string>*l);
+
 ABR* consIterABR(std::vector<Clef *>* vec);
 
+ABR* consIterABR(std::vector<std::string>* vec, std::list<std::string> *l);
+
 void afficher(ABR *A);
+
+int testMD5();
 
 #endif /* SRC_ABR_H_ */
