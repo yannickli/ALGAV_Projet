@@ -113,95 +113,25 @@ vector<Clef*> *lireFichier(string file) {
 	return nullptr;
 }
 
-// Ce test permet de valider nos structures de la question 2
-int testStructureTas() {
-	TasMinArbre *t1 = new TasMinArbre();
-	t1->consIterArbre(lireFichier("cles_alea/jeu_1_nb_cles_50000.txt"));
-	t1->supprMin();
-	t1->supprMin();
-	t1->ajout(new Noeud(new Clef(3999999999, 23, 0, 0)));
-	t1->supprMin();
-	//t1->afficher();
-	cout << t1->tester() << endl;
-
-	TasMinArbre *t2 = new TasMinArbre();
-	t2->consIterArbre(lireFichier("cles_alea/jeu_2_nb_cles_10000.txt"));
-	t2->supprMin();
-	t2->supprMin();
-	t2->ajout(new Noeud(new Clef(3999999999, 4, 0, 1)));
-	t2->supprMin();
-	//t2->afficher();
-	cout << t2->tester() << endl;
-
-	TasMinArbre *t3 = union2Arbre(t1, t2);
-	t3->supprMin();
-	t3->supprMin();
-	t3->ajout(new Noeud(new Clef(3999999999, 5, 0, 2)));
-	t3->supprMin();
-	//t3->afficher();
-	cout << t3->tester() << endl;
-
-	TasMinTab *t4 = new TasMinTab();
-	t4->consIterTab(lireFichier("cles_alea/jeu_2_nb_cles_1000.txt"));
-	t4->supprMin();
-	t4->supprMin();
-	t4->ajout((new Clef(3999999999, 0, 0, 0)));
-	t4->supprMin();
-	//t4->afficher();
-	cout << t4->tester() << endl;
-
-	TasMinTab *t5 = new TasMinTab();
-	t5->consIterTab(lireFichier("cles_alea/jeu_2_nb_cles_10000.txt"));
-	//cout << "Erreur incomming" << endl;
-	t5->supprMin();
-	//cout << "Pas d'erreur" << endl;
-	t5->supprMin();
-	t5->ajout((new Clef(3999999999, 4, 0, 1)));
-	t5->supprMin();
-	//t5->afficher();
-	cout << t5->tester() << endl;
-
-	TasMinTab *t6 = union2Tab(*t4, *t5);
-	t6->supprMin();
-	t6->supprMin();
-	t6->ajout((new Clef(3999999999, 5, 0, 2)));
-	t6->supprMin();
-	//t6->afficher();
-	cout << t6->tester() << endl;
-
-	cout << endl << "MES TAS" << endl;
-
-	TasMinTab *res = new TasMinTab();
-	res->consIterTab(lireFichier("cles_alea/jeu_1_nb_cles_100.txt"));
-	//res->afficher();
-	res->tester();
-	TasMinArbre *res2 = new TasMinArbre();
-	res2->consIterArbre(lireFichier("cles_alea/jeu_1_nb_cles_100.txt"));
-	//res2->afficher();
-	res2->tester();
-
-	return 0;
-}
-
 void complexiteConsIterArbre() {
 	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
 			"50000" };
-
 	for (string s1 : nom) {
-		clock_t tStart = clock();
+		double cpt = 0;
 		for (int i = 1; i <= 5; i++) {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
 			vector<Clef*> *tab = lireFichier(s);
 			TasMinArbre * tas = new TasMinArbre();
+			clock_t tStart = clock();
 			tas->consIterArbre(tab);
+			cpt += ((double) (clock() - tStart) / CLOCKS_PER_SEC);
 			if (!tas->tester()) {
 				perror("Probleme ConsIter Arbre");
 				exit(100);
 			}
 		}
-		cout << "Taille : " << s1 << " ; Temps : "
-				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) / 5 << endl;
+		cout << "Taille : " << s1 << " ; Temps : " << cpt / 5 << endl;
 	}
 }
 
@@ -210,20 +140,21 @@ void complexiteConsIterTab() {
 			"50000" };
 
 	for (string s1 : nom) {
-		clock_t tStart = clock();
+		double cpt = 0;
 		for (int i = 1; i <= 5; i++) {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
 			vector<Clef*> *tab = lireFichier(s);
 			TasMinTab * tas = new TasMinTab();
+			clock_t tStart = clock();
 			tas->consIterTab(tab);
+			cpt += ((double) (clock() - tStart) / CLOCKS_PER_SEC);
 			if (!tas->tester()) {
 				perror("Probleme ConsIter Tab");
 				exit(101);
 			}
 		}
-		cout << "Taille : " << s1 << " ; Temps : "
-				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) / 5 << endl;
+		cout << "Taille : " << s1 << " ; Temps : " << cpt / 5 << endl;
 	}
 }
 
@@ -247,19 +178,18 @@ void complexiteUnionArbre() {
 		TasMinArbre *tas5 = new TasMinArbre();
 		tas5->consIterArbre(
 				lireFichier("cles_alea/jeu_5_nb_cles_" + s1 + ".txt"));
-		clock_t tStart = clock();
 
+		clock_t tStart = clock();
 		TasMinArbre *res = union2Arbre(tas1, tas2);
 		res = union2Arbre(res, tas3);
 		res = union2Arbre(res, tas4);
 		res = union2Arbre(res, tas5);
+		cout << "Taille : " << s1 << " ; Temps : "
+				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) / 4 << endl;
 		if (!res->tester()) {
 			perror("Probleme Union Arbre");
 			exit(102);
 		}
-
-		cout << "Taille : " << s1 << " ; Temps : "
-				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) << endl;
 	}
 }
 
@@ -283,19 +213,18 @@ void complexiteUnionTab() {
 		TasMinTab *tas5 = new TasMinTab();
 		tas5->consIterTab(
 				lireFichier("cles_alea/jeu_5_nb_cles_" + s1 + ".txt"));
-		clock_t tStart = clock();
 
+		clock_t tStart = clock();
 		TasMinTab *res = union2Tab(*tas1, *tas2);
 		res = union2Tab(*res, *tas3);
 		res = union2Tab(*res, *tas4);
 		res = union2Tab(*res, *tas5);
+		cout << "Taille : " << s1 << " ; Temps : "
+				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) / 4 << endl;
 		if (!res->tester()) {
 			perror("Probleme Union Tab");
 			exit(103);
 		}
-
-		cout << "Taille : " << s1 << " ; Temps : "
-				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) << endl;
 	}
 }
 
@@ -303,9 +232,8 @@ void complexiteSupprMinArbre() {
 	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
 			"50000" };
 	clock_t tStart;
-	double cpt = 0;
-
 	for (string s1 : nom) {
+		double cpt = 0;
 		for (int i = 1; i <= 5; i++) {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
@@ -324,7 +252,6 @@ void complexiteSupprMinArbre() {
 			}
 			cpt += ((double) (clock() - tStart) / CLOCKS_PER_SEC) / stoi(s1);
 		}
-
 		cout << "Taille : " << s1 << " ; Temps : " << cpt / 5 << endl;
 	}
 }
@@ -333,9 +260,8 @@ void complexiteSupprMinTab() {
 	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
 			"50000" };
 	clock_t tStart;
-	double cpt = 0;
-
 	for (string s1 : nom) {
+		double cpt = 0;
 		for (int i = 1; i <= 5; i++) {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
@@ -354,7 +280,6 @@ void complexiteSupprMinTab() {
 			}
 			cpt += ((double) (clock() - tStart) / CLOCKS_PER_SEC) / stoi(s1);
 		}
-
 		cout << "Taille : " << s1 << " ; Temps : " << cpt / 5 << endl;
 	}
 }
@@ -363,9 +288,8 @@ void complexiteAjoutArbre() {
 	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
 			"50000" };
 	clock_t tStart;
-	double cpt = 0;
-
 	for (string s1 : nom) {
+		double cpt = 0;
 		for (int i = 1; i <= 5; i++) {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
@@ -378,13 +302,11 @@ void complexiteAjoutArbre() {
 				tas->ajout(new Noeud(c));
 			}
 			cpt += ((double) (clock() - tStart) / CLOCKS_PER_SEC) / tab->size();
-
 			if (!tas->tester()) {
 				perror("Probleme ConsIter Arbre");
 				exit(100);
 			}
 		}
-
 		cout << "Taille : " << s1 << " ; Temps : " << cpt / 5 << endl;
 	}
 }
@@ -393,9 +315,8 @@ void complexiteAjoutTab() {
 	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
 			"50000" };
 	clock_t tStart;
-	double cpt = 0;
-
 	for (string s1 : nom) {
+		double cpt = 0;
 		for (int i = 1; i <= 5; i++) {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
@@ -407,13 +328,11 @@ void complexiteAjoutTab() {
 				tas->ajout(c);
 			}
 			cpt += ((double) (clock() - tStart) / CLOCKS_PER_SEC) / tab->size();
-
 			if (!tas->tester()) {
 				perror("Probleme ConsIter Arbre");
 				exit(100);
 			}
 		}
-
 		cout << "Taille : " << s1 << " ; Temps : " << cpt / 5 << endl;
 	}
 }
@@ -423,9 +342,9 @@ void testComplexiteTas() {
 	complexiteConsIterArbre();
 	cout << "ConstIterTab (moyenne des 5 jeux):" << endl;
 	complexiteConsIterTab();
-	cout << "UnionArbre (4 union des 5 jeux):" << endl;
+	cout << "UnionArbre (moyenne des 4 union des 5 jeux):" << endl;
 	complexiteUnionArbre();
-	cout << "UnionTab (4 union des 5 jeux):" << endl;
+	cout << "UnionTab (moyenne des 4 union des 5 jeux):" << endl;
 	complexiteUnionTab();
 	cout << "SupprMinArbre (1 operation): " << endl;
 	complexiteSupprMinArbre();
@@ -437,66 +356,26 @@ void testComplexiteTas() {
 	complexiteAjoutTab();
 }
 
-void testStructureFileB() {
-	TournoiB* tb1 = new TournoiB(new Clef(8, 1, 1, 1));
-	TournoiB* tb2 = new TournoiB(new Clef(63, 54, 3, 4));
-	TournoiB* tb3 = union2Tid(tb1, tb2);
-
-	TournoiB* tb4 = new TournoiB(new Clef(77, 5, 3, 6));
-	TournoiB* tb5 = new TournoiB(new Clef(6, 6, 7, 2));
-	TournoiB* tb6 = union2Tid(tb4, tb5);
-
-	TournoiB* tb7 = union2Tid(tb3, tb6);
-
-	afficher(toFile(tb7));
-	cout << "apres decapite" << endl;
-	FileB *fb1 = decapite(tb7);
-	afficher(fb1);
-
-	FileB *fb2 = toFile(new TournoiB(new Clef(3, 6, 2, 5)));
-	FileB *fb3 = unionFile(fb1, fb2);
-	FileB *fb4 = toFile(new TournoiB(new Clef(4, 6, 2, 5)));
-	FileB *fb5 = toFile(new TournoiB(new Clef(2, 6, 2, 5)));
-	FileB *fb6 = unionFile(fb4, fb5);
-
-	FileB *fb9 = toFile(new TournoiB(new Clef(45, 43, 23, 2)));
-	FileB *fb10 = toFile(new TournoiB(new Clef(41, 43, 23, 2)));
-	FileB *fb11 = unionFile(fb9, fb10);
-	FileB *fb12 = unionFile(fb11, fb6);
-
-	FileB *fb7 = unionFile(fb12, fb3);
-
-	FileB *fb13 = unionFile(toFile(new TournoiB(new Clef(33, 33, 12, 1))),
-			toFile(new TournoiB(new Clef(63, 3, 2, 1))));
-	cout << "apres unionFile" << endl;
-	FileB *fb14 = unionFile(fb7, fb13);
-	afficher(fb14);
-	cout << "apres reste" << endl;
-	FileB *fb8 = reste(fb14);
-	afficher(fb8);
-}
-
 void complexiteConsIterFileB() {
 	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
 			"50000" };
-
 	for (string s1 : nom) {
-		clock_t tStart = clock();
+		double cpt = 0;
 		for (int i = 1; i <= 5; i++) {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
 			vector<Clef*> *vec = lireFichier(s);
+			clock_t tStart = clock();
 			FileB * fb = consIterFileB(vec);
+			cpt += ((double) (clock() - tStart) / CLOCKS_PER_SEC);
 		}
-		cout << "Taille : " << s1 << " ; Temps : "
-				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) / 5 << endl;
+		cout << "Taille : " << s1 << " ; Temps : " << cpt / 5 << endl;
 	}
 }
 
 void complexiteUnionFileB() {
 	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
 			"50000" };
-
 	for (string s1 : nom) {
 		FileB *fb1 = consIterFileB(
 				lireFichier("cles_alea/jeu_1_nb_cles_" + s1 + ".txt"));
@@ -508,15 +387,14 @@ void complexiteUnionFileB() {
 				lireFichier("cles_alea/jeu_4_nb_cles_" + s1 + ".txt"));
 		FileB *fb5 = consIterFileB(
 				lireFichier("cles_alea/jeu_5_nb_cles_" + s1 + ".txt"));
-		clock_t tStart = clock();
 
+		clock_t tStart = clock();
 		FileB *res = unionFile(fb1, fb2);
 		res = unionFile(res, fb3);
 		res = unionFile(res, fb4);
 		res = unionFile(res, fb5);
-
 		cout << "Taille : " << s1 << " ; Temps : "
-				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) << endl;
+				<< ((double) (clock() - tStart) / CLOCKS_PER_SEC) / 4 << endl;
 	}
 }
 
@@ -524,9 +402,8 @@ void complexiteSupprMinFileB() {
 	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
 			"50000" };
 	clock_t tStart;
-	double cpt = 0;
-
 	for (string s1 : nom) {
+		double cpt = 0;
 		for (int i = 1; i <= 5; i++) {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
@@ -540,7 +417,6 @@ void complexiteSupprMinFileB() {
 			}
 			cpt += ((double) (clock() - tStart) / CLOCKS_PER_SEC) / stoi(s1);
 		}
-
 		cout << "Taille : " << s1 << " ; Temps : " << cpt / 5 << endl;
 	}
 }
@@ -549,9 +425,8 @@ void complexiteAjoutFileB() {
 	string nom[8] = { "100", "200", "500", "1000", "5000", "10000", "20000",
 			"50000" };
 	clock_t tStart;
-	double cpt = 0;
-
 	for (string s1 : nom) {
+		double cpt = 0;
 		for (int i = 1; i <= 5; i++) {
 			string s = "cles_alea/jeu_" + to_string(i) + "_nb_cles_" + s1
 					+ ".txt";
@@ -564,7 +439,6 @@ void complexiteAjoutFileB() {
 			}
 			cpt += ((double) (clock() - tStart) / CLOCKS_PER_SEC) / tab->size();
 		}
-
 		cout << "Taille : " << s1 << " ; Temps : " << cpt / 5 << endl;
 	}
 }
@@ -572,7 +446,7 @@ void complexiteAjoutFileB() {
 void testComplexiteFileB() {
 	cout << "ConsIterFileB (moyenne des 5 jeux): " << endl;
 	complexiteConsIterFileB();
-	cout << "UnionFileB (4 union des 5 jeux):" << endl;
+	cout << "UnionFileB (moyenne des 4 union des 5 jeux):" << endl;
 	complexiteUnionFileB();
 	cout << "SupprMinFileB (1 operation): " << endl;
 	complexiteSupprMinFileB();
@@ -609,33 +483,12 @@ void testStructureABR() {
 }
 
 int main() {
-	/*FileB *fb = consIterFileB(lireFichier("cles_alea/jeu_1_nb_cles_10000.txt"));
-	for(TournoiB * t:*(fb->getFile())){
-		cout << degre(t)<<endl;
-	}*/
-
-
-	//testStructureTas();
-	//testComplexiteTas();
-	//testStructureFileB();
-	//testComplexiteFileB();
-
-	/*TasMinTab *res = new TasMinTab();
-	 res->consIterTab(lireFichier("cles_alea/jeu_1_nb_cles_1000.txt"));
-	 res->afficher();
-	 res->tester();
-	 TasMinArbre *res2 = new TasMinArbre();
-	 res2->consIterArbre(lireFichier("cles_alea/jeu_1_nb_cles_1000.txt"));
-	 res2->afficher();
-	 res2->tester();
-	 string s = "cles_alea/jeu_1_nb_cles_1000.txt";
-	 vector<Clef*> *vec = lireFichier(s);
-	 FileB *fb = consIterFileB(vec);
-	 afficher(fb);
-	 afficherTaille(fb);*/
-
-//	testMD5();
-	testStructureABR();
+	testComplexiteTas();
+	testComplexiteFileB();
+	/*cout << "Test de MD5 : " << endl;
+	testMD5();
+	cout << "Test de la structure ABR : " << endl;
+	testStructureABR();*/
 	return 0;
 }
 

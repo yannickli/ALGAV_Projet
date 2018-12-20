@@ -1,0 +1,108 @@
+ConsIterArbre (moyenne des 5 jeux): 
+Taille : 100 ; Temps : 8.68e-05
+Taille : 200 ; Temps : 0.0002324
+Taille : 500 ; Temps : 0.0004234
+Taille : 1000 ; Temps : 0.0007464
+Taille : 5000 ; Temps : 0.0071914
+Taille : 10000 ; Temps : 0.0145456
+Taille : 20000 ; Temps : 0.0303476
+Taille : 50000 ; Temps : 0.0637792
+ConstIterTab (moyenne des 5 jeux):
+Taille : 100 ; Temps : 9.6e-06
+Taille : 200 ; Temps : 1.7e-05
+Taille : 500 ; Temps : 3.78e-05
+Taille : 1000 ; Temps : 7.26e-05
+Taille : 5000 ; Temps : 0.0004
+Taille : 10000 ; Temps : 0.0007904
+Taille : 20000 ; Temps : 0.0015426
+Taille : 50000 ; Temps : 0.0039764
+UnionArbre (moyenne des 4 union des 5 jeux):
+Taille : 100 ; Temps : 0.00030025
+Taille : 200 ; Temps : 0.0006445
+Taille : 500 ; Temps : 0.0018375
+Taille : 1000 ; Temps : 0.00388675
+Taille : 5000 ; Temps : 0.0231805
+Taille : 10000 ; Temps : 0.0495845
+Taille : 20000 ; Temps : 0.103665
+Taille : 50000 ; Temps : 0.267189
+UnionTab (moyenne des 4 union des 5 jeux):
+Taille : 100 ; Temps : 2.2e-05
+Taille : 200 ; Temps : 3.975e-05
+Taille : 500 ; Temps : 9.1e-05
+Taille : 1000 ; Temps : 0.000176
+Taille : 5000 ; Temps : 0.0010035
+Taille : 10000 ; Temps : 0.0021495
+Taille : 20000 ; Temps : 0.00439
+Taille : 50000 ; Temps : 0.011522
+SupprMinArbre (1 operation): 
+Taille : 100 ; Temps : 1.262e-06
+Taille : 200 ; Temps : 1.429e-06
+Taille : 500 ; Temps : 1.6588e-06
+Taille : 1000 ; Temps : 1.9092e-06
+Taille : 5000 ; Temps : 2.28224e-06
+Taille : 10000 ; Temps : 2.47398e-06
+Taille : 20000 ; Temps : 2.65117e-06
+Taille : 50000 ; Temps : 3.03377e-06
+SupprMinTab (1 operation):
+Taille : 100 ; Temps : 2.56e-07
+Taille : 200 ; Temps : 3.14e-07
+Taille : 500 ; Temps : 3.464e-07
+Taille : 1000 ; Temps : 3.974e-07
+Taille : 5000 ; Temps : 5.14e-07
+Taille : 10000 ; Temps : 5.8694e-07
+Taille : 20000 ; Temps : 6.7029e-07
+Taille : 50000 ; Temps : 7.62296e-07
+AjoutArbre (1 operation): 
+Taille : 100 ; Temps : 1.03e-06
+Taille : 200 ; Temps : 1.144e-06
+Taille : 500 ; Temps : 1.2116e-06
+Taille : 1000 ; Temps : 1.3928e-06
+Taille : 5000 ; Temps : 1.633e-06
+Taille : 10000 ; Temps : 1.68066e-06
+Taille : 20000 ; Temps : 1.74383e-06
+Taille : 50000 ; Temps : 1.84391e-06
+AjoutTab (1 operation):
+Taille : 100 ; Temps : 1.14e-07
+Taille : 200 ; Temps : 1.15e-07
+Taille : 500 ; Temps : 9.4e-08
+Taille : 1000 ; Temps : 9.3e-08
+Taille : 5000 ; Temps : 9.52e-08
+Taille : 10000 ; Temps : 9.544e-08
+Taille : 20000 ; Temps : 9.413e-08
+Taille : 50000 ; Temps : 9.556e-08
+ConsIterFileB (moyenne des 5 jeux): 
+Taille : 100 ; Temps : 0.000124
+Taille : 200 ; Temps : 0.0002588
+Taille : 500 ; Temps : 0.000685
+Taille : 1000 ; Temps : 0.0013546
+Taille : 5000 ; Temps : 0.0068424
+Taille : 10000 ; Temps : 0.0135868
+Taille : 20000 ; Temps : 0.0275114
+Taille : 50000 ; Temps : 0.0687178
+UnionFileB (moyenne des 4 union des 5 jeux):
+Taille : 100 ; Temps : 3.5e-06
+Taille : 200 ; Temps : 3.75e-06
+Taille : 500 ; Temps : 7.25e-06
+Taille : 1000 ; Temps : 7.75e-06
+Taille : 5000 ; Temps : 1.05e-05
+Taille : 10000 ; Temps : 1.05e-05
+Taille : 20000 ; Temps : 1.25e-05
+Taille : 50000 ; Temps : 1.475e-05
+SupprMinFileB (1 operation): 
+Taille : 100 ; Temps : 5.84e-07
+Taille : 200 ; Temps : 6.32e-07
+Taille : 500 ; Temps : 6.568e-07
+Taille : 1000 ; Temps : 7.01e-07
+Taille : 5000 ; Temps : 8.5188e-07
+Taille : 10000 ; Temps : 7.9984e-07
+Taille : 20000 ; Temps : 8.0846e-07
+Taille : 50000 ; Temps : 8.25936e-07
+AjoutFileB (1 operation):
+Taille : 100 ; Temps : 1.36e-06
+Taille : 200 ; Temps : 1.372e-06
+Taille : 500 ; Temps : 1.386e-06
+Taille : 1000 ; Temps : 1.3936e-06
+Taille : 5000 ; Temps : 1.41132e-06
+Taille : 10000 ; Temps : 1.41726e-06
+Taille : 20000 ; Temps : 1.41238e-06
+Taille : 50000 ; Temps : 1.41791e-06

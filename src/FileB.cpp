@@ -101,6 +101,7 @@ void afficher(FileB*F) {
 	}
 }
 
+// Affiche le degre des fils de notre file
 void afficherTaille(FileB*F) {
 	int cpt = 0;
 	for (TournoiB * tb : *F->getFile()) {
