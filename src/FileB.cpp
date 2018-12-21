@@ -1,8 +1,8 @@
 /*
  * FileB.cpp
  *
- *  Created on: 18 déc. 2018
- *      Author: yannickli
+ *  Created on: 28 nov. 2018
+ *      Author: 3305496
  */
 
 #ifndef SRC_FILEB_CPP_
