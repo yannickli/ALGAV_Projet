@@ -120,8 +120,9 @@ void afficher(ABR *A) {
 }
 
 int testMD5() {
-	string message =
-			"Le md5 de \"The quick brown fox jumps over the lazy dog\" est : ";
-	cout << message << endl << md5(message) << endl;
+	cout << "Le md5 de \"The quick brown fox jumps over the lazy dog\" est : "
+			<< endl;
+	string message = "The quick brown fox jumps over the lazy dog";
+	cout << md5(message) << endl;
 	return 0;
 }

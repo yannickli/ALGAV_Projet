@@ -40,64 +40,62 @@ string md5(string message) {
 	unsigned char *res = NULL;
 
 	//ajouter le bit "0" jusqu'à ce que la taille du message en bits soit égale à 448 (mod 512)
-	int resTaille = message.length() * 8 + 1;
-	while (resTaille % 512 != 448)
-		resTaille++;
-	resTaille /= 8;
-	int lim = resTaille / 64;
-	res = (unsigned char*) calloc(resTaille + 8, 1);
+	//Pour cela on effectue un calloc de la nouvelle taille voulue et on effectue ensuite un memcpy sur le debut pour mettre notre message
+	int nouvTaille = 0;
+	for (nouvTaille = message.length() * 8 + 1; nouvTaille % 512 != 448;
+			nouvTaille++) {
+	}
+	res = (unsigned char*) calloc(nouvTaille / 8 + 8, 1);
 	memcpy(res, message.c_str(), message.length());
 
-	//ajouter le bit "1" au message
+	//ajouter le bit "1" au message au bon endroit
 	res[message.length()] = (unsigned char) 0x80;
 
-	unsigned int messagetaillebit = 8 * message.length();
+	unsigned int messageTailleEnBit = 8 * message.length();
 
 	//ajouter la taille du message initial(avant le padding) codée en 64-bit little-endian au message
-	memcpy(res + resTaille, &messagetaillebit, 4);
+	memcpy(res + nouvTaille / 8, &messageTailleEnBit, 4);
+
 	//Découpage en blocs de 512 bits :
-	int i;
-	for (i = 0; i <= lim; i++) {
-		//subdiviser en 16 mots de 32 bits en little-endian w[i], 0 ≤ i ≤ 15
-		unsigned int *w = (unsigned int *) (res + i * 64);
+	//subdiviser en 16 mots de 32 bits en little-endian w[i], 0 ≤ i ≤ 15
+	unsigned int *w = (unsigned int *) res;
 
-		//initialiser les valeurs de hachage :
-		unsigned int a = h0;
-		unsigned int b = h1;
-		unsigned int c = h2;
-		unsigned int d = h3;
+	//initialiser les valeurs de hachage :
+	unsigned int a = h0;
+	unsigned int b = h1;
+	unsigned int c = h2;
+	unsigned int d = h3;
 
-		//Boucle principale :
-		unsigned int f = 0, g = 0;
-		for (int i = 0; i < 64; i++) {
-			if (0 <= i and i <= 15) {
-				f = ((b & c) | ((~b) & d));
-				g = i;
-			} else if (16 <= i and i <= 31) {
-				f = ((d & b) | ((~d) & c));
-				g = (5 * i + 1) % 16;
-			} else if (32 <= i and i <= 47) {
-				f = (b ^ c ^ d);
-				g = (3 * i + 5) % 16;
-			} else if (48 <= i and i <= 64) {
-				f = (c ^ (b | (~d)));
-				g = (7 * i) % 16;
-			}
-
-			unsigned tmp = d;
-			d = c;
-			c = b;
-			b = (((a + f + k[i] + w[g]) << r[i])
-					| ((a + f + k[i] + w[g]) >> (32 - r[i]))) + b;
-			a = tmp;
+	//Boucle principale :
+	unsigned int f = 0, g = 0;
+	for (int i = 0; i < 64; i++) {
+		if (0 <= i and i <= 15) {
+			f = ((b & c) | ((~b) & d));
+			g = i;
+		} else if (16 <= i and i <= 31) {
+			f = ((d & b) | ((~d) & c));
+			g = (5 * i + 1) % 16;
+		} else if (32 <= i and i <= 47) {
+			f = (b ^ c ^ d);
+			g = (3 * i + 5) % 16;
+		} else if (48 <= i and i <= 64) {
+			f = (c ^ (b | (~d)));
+			g = (7 * i) % 16;
 		}
 
-		//ajouter le résultat au bloc précédent :
-		h0 = h0 + a;
-		h1 = h1 + b;
-		h2 = h2 + c;
-		h3 = h3 + d;
+		unsigned tmp = d;
+		d = c;
+		c = b;
+		b = (((a + f + k[i] + w[g]) << r[i])
+				| ((a + f + k[i] + w[g]) >> (32 - r[i]))) + b;
+		a = tmp;
 	}
+
+	//ajouter le résultat au bloc précédent :
+	h0 = h0 + a;
+	h1 = h1 + b;
+	h2 = h2 + c;
+	h3 = h3 + d;
 
 	unsigned int * empreinte = (unsigned int *) malloc(16);
 	empreinte[0] = h0;
@@ -106,11 +104,10 @@ string md5(string message) {
 	empreinte[3] = h3;
 
 	string retour;
-	for (i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		char c[9];
-		unsigned char *e;
-		e = (unsigned char *) &empreinte[i];
-		sprintf(c, "%02x%02x%02x%02x", e[0], e[1], e[2], e[3]);
+		unsigned char * pc = (unsigned char *) (empreinte + i);
+		sprintf(c, "%x%x%x%x", pc[0], pc[1], pc[2], pc[3]);
 		retour += c;
 	}
 	return retour;

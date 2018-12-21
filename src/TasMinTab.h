@@ -60,6 +60,8 @@ public:
 			}
 		}
 	}
+
+	// Echange deux element du tas d'indice c1 et c2
 	void swap(int c1, int c2) {
 		Clef *tmp = tab[c1];
 		tab[c1] = tab[c2];
@@ -78,6 +80,8 @@ public:
 			}
 		}
 	}
+
+	// fonction consIter pour tableau
 	void consIterTab(std::vector<Clef*> *elm) {
 		for (Clef *it : *elm) {
 			tab.push_back(it);
@@ -88,6 +92,8 @@ public:
 			redescendre(i);
 		}
 	}
+
+	// Permet de faire l'union de 2 tas representé en tableau
 	friend TasMinTab* union2Tab(TasMinTab t1, TasMinTab t2) {
 		std::vector<Clef*> v1 = t1.tab;
 		std::vector<Clef*> v2 = t2.tab;
@@ -134,9 +140,9 @@ public:
 		}
 	}
 
-// Permet de tester que notre TasMin est bien implementé
-// Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
-// La fonction retourne le nombre de noeud teste
+	// Permet de tester que notre TasMin est bien implementé
+	// Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
+	// La fonction retourne le nombre de noeud teste
 	int tester() {
 		int cpt = 0;
 		if (testN(0, &cpt)) {

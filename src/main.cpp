@@ -472,6 +472,7 @@ vector<string> *lireFichierShakespeare(string file) {
 }
 
 void testStructureABR() {
+	cout << "Test de la structure ABR : " << endl;
 	list<string> *occurences = new list<string>();
 	ABR * res = consIterABR(lireFichierShakespeare("Shakespeare/toto"),
 			occurences);
@@ -485,10 +486,8 @@ void testStructureABR() {
 int main() {
 	testComplexiteTas();
 	testComplexiteFileB();
-	/*cout << "Test de MD5 : " << endl;
 	testMD5();
-	cout << "Test de la structure ABR : " << endl;
-	testStructureABR();*/
+	testStructureABR();
 	return 0;
 }
 

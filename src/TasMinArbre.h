@@ -29,10 +29,13 @@ public:
 		return nbElem;
 	}
 
+	// Cette fonction nous donne la position du noeud i
+	// Elle prend la representation en binaire du nombre d'élement de l'arbre
+	// Enleve le bit de poids fort et nous permets de calculer le chemin du dernier noeud
+	// En parcourant le chemin on obtient le dernier noeud de l'arbre
 	Noeud* DonneMoiLe(int i) {
 		std::vector<int> *instructions = new std::vector<int>();
 		int cpt = i + 1;
-		//std::cout << nbElem << std::endl;
 		while (cpt >= 2) {
 			instructions->push_back(cpt % 2);
 			cpt /= 2;
@@ -55,34 +58,14 @@ public:
 		return tmp;
 	}
 
-	// Renvoie le dernier noeud de notre tas
+	// Cette fonction nous donne la position du dernier noeud
 	Noeud* DonneMoiLeDernier() {
-		std::vector<int> *instructions = new std::vector<int>();
-		int cpt = nbElem;
-		//std::cout << nbElem << std::endl;
-		while (cpt >= 2) {
-			instructions->push_back(cpt % 2);
-			cpt /= 2;
-			//std::cout << instructions->back() << std::endl;
-		}
-		Noeud *tmp = racine;
-		while (!instructions->empty()) {
-			if (instructions->back()) { // back() renvoie la valeur du dernier element de instructions
-				if (tmp->getFilsD() == nullptr)
-					exit(11);
-				tmp = tmp->getFilsD();
-
-			} else {
-				if (tmp->getFilsG() == nullptr)
-					exit(12);
-				tmp = tmp->getFilsG();
-			}
-			instructions->pop_back();
-		}
-		return tmp;
+		return DonneMoiLe(nbElem - 1);
 	}
 
-// Donne le pere du premier noeud vide
+	// Cette fonction nous donne la position du pere de l'endroit où on va inserer notre prochain noeud
+	// De la meme maniere que pour avoir le dernier noeud, on traduit en binaire et on suppose que l'on veut le noeud nbElem+1
+	// A la fin on aura un fils à nullptr et donc on saura qu'on est sur le père du futur élément
 	Noeud* DonnePereNoeudVide() {
 		std::vector<int> instructions;
 		int cpt = nbElem + 1;
@@ -107,7 +90,7 @@ public:
 		return tmp;
 	}
 
-// Echange la position du noeud pere avec son fils gauche
+	// Echange la position du noeud pere avec son fils gauche
 	Noeud * echangeAvecFilsG(Noeud* pere) {
 		Noeud * fg = pere->getFilsG();
 
@@ -134,7 +117,7 @@ public:
 		return fg;
 	}
 
-// Echange la position du noeud pere avec son fils droit
+	// Echange la position du noeud pere avec son fils droit
 	Noeud * echangeAvecFilsD(Noeud * pere) {
 		Noeud * fd = pere->getFilsD();
 		if (pere->pere) {
@@ -161,6 +144,7 @@ public:
 		return fd;
 	}
 
+	// Cette fonction sert à redescendre le noeud racine pour conserver nos proprietes de tas min
 	void tamiser_racine() {
 		if (racine->getFilsG()
 				&& (*(racine->getClef()) > *(racine->getFilsG()->getClef()))) {
@@ -189,8 +173,8 @@ public:
 		}
 	}
 
-// Permet de retablir les proprietes de tas min en descendant a partir du noeud origine
-// Utilise pour la supression de la racine
+	// Permet de retablir les proprietes de tas min en descendant a partir du noeud origine
+	// Utilise pour la supression de la racine
 	void tamiser_bas(Noeud *origine) {
 		Noeud * retour;
 		if (origine->getFilsG()
@@ -248,8 +232,8 @@ public:
 
 	}
 
-// Permet de retablir les proprietes de tas min en remontant a partir du dernier noeud
-// Utilise pour l'ajout
+	// Permet de retablir les proprietes de tas min en remontant a partir du dernier noeud
+	// Utilise pour l'ajout
 	void tamiser_haut(Noeud *origine) {
 		Noeud * retour = racine;
 		if (origine->pere && *(origine->pere->clef) > *(origine->clef)) {
@@ -271,7 +255,7 @@ public:
 
 	}
 
-// Ajoute le noeud n a notre tas
+	// Ajoute le noeud n a notre tas
 	void ajout(Noeud *n) {
 		if (racine == nullptr) {
 			racine = n;
@@ -287,13 +271,13 @@ public:
 		tamiser_haut(n);
 	}
 
-// Affichage en parcours prefixe
+	// Affichage en parcours prefixe
 	void afficher() {
 		racine->afficher();
 		std::cout << "Il y a " << nbElem << " cles." << std::endl;
 	}
 
-// Permet de construire un tas min a partir de tab
+	// Permet de construire un tas min a partir de tab
 	void consIterArbre(std::vector<Clef*> *tab) {
 		std::vector<Noeud *> tmp = *new std::vector<Noeud *>();
 		for (Clef *c : *tab) {
@@ -327,14 +311,14 @@ public:
 		tamiser_racine();
 	}
 
-// constIter naif
+	// constIter naif avec ajout
 	void consIterNaif(std::vector<Clef*> *tab) {
 		for (Clef * c : *tab) {
 			ajout(new Noeud(c));
 		}
 	}
 
-// Ajoute la cle du noeud n au vecteur vec
+	// Ajoute la cle du noeud n au vecteur vec
 	void addToVector(Noeud *n, std::vector<Clef*>* vec) {
 		if (n == nullptr)
 			return;
@@ -343,14 +327,14 @@ public:
 		addToVector(n->filsD, vec);
 	}
 
-// Transforme notre arbre en vecteur
+	// Transforme notre arbre en vecteur
 	std::vector<Clef*> *toVector() {
 		std::vector<Clef*> * res = new std::vector<Clef*>();
 		addToVector(racine, res);
 		return res;
 	}
 
-// Fonction qui fait l'union des deux tas passes en parametres
+	// Fonction qui fait l'union des deux tas passes en parametres
 	friend TasMinArbre* union2Arbre(TasMinArbre *t1, TasMinArbre *t2) {
 		std::vector<Clef*> *v1 = t1->toVector();
 		std::vector<Clef*> *v2 = t2->toVector();
@@ -360,7 +344,7 @@ public:
 		return res;
 	}
 
-// Test si un noeud respecte les proprietes du tas min i.e. si la cle du noeud est plus petite que celle de ses fils
+	// Test si un noeud respecte les proprietes du tas min i.e. si la cle du noeud est plus petite que celle de ses fils
 	bool testN(Noeud * n, int *nb) {
 		Noeud * fg = n->filsG;
 		Noeud * fd = n->filsD;
@@ -391,9 +375,9 @@ public:
 		}
 	}
 
-// Permet de tester que notre TasMin est bien implementé
-// Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
-// La fonction retourne 1 si notre tas verifie bien les proprietes de tas min et que l'on a bien teste le bon nombre de noeud
+	// Permet de tester que notre TasMin est bien implementé
+	// Grace a testN, on verifie que pour tous les noeuds, on est bien inferieur a nos deux fils
+	// La fonction retourne 1 si notre tas verifie bien les proprietes de tas min et que l'on a bien teste le bon nombre de noeud
 	int tester() {
 		int cpt = 0;
 		if (testN(racine, &cpt)) {
