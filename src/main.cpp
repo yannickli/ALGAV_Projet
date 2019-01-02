@@ -474,7 +474,7 @@ vector<string> *lireFichierShakespeare(string file) {
 void testStructureABR() {
 	cout << "Test de la structure ABR : " << endl;
 	list<string> *occurences = new list<string>();
-	ABR * res = consIterABR(lireFichierShakespeare("Shakespeare/toto"),
+	ABR * res = consIterABR(lireFichierShakespeare("Shakespeare/toto.txt"),
 			occurences);
 	//afficher(res);
 	cout << "Liste des mots : " << endl;
